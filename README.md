@@ -1,4 +1,5 @@
-# yosherbot
+# YosherBot
+
 A Discord bot written for the Masayoshi OC Discord server
 
 ## License
