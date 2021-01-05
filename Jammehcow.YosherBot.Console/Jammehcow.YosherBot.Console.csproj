@@ -3,6 +3,9 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>Jammehcow.YosherBot.Console</AssemblyName>
+        <RootNamespace>Jammehcow.YosherBot.Console</RootNamespace>
+        <Nullable>warnings</Nullable>
     </PropertyGroup>
 
 </Project>
