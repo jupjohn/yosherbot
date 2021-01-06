@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="Discord.Net" Version="2.2.0" />
+      <PackageReference Include="MayBee" Version="4.0.1" />
     </ItemGroup>
 
 </Project>
