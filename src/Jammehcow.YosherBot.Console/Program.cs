@@ -1,10 +1,7 @@
 ﻿namespace Jammehcow.YosherBot.Console
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
-        {
-            System.Console.WriteLine("Hello World!");
-        }
+        public static void Main() => BotStartup.CreateDefaultBot().Run().GetAwaiter().GetResult();
     }
 }
