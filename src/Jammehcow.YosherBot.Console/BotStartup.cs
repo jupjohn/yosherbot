@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using Jammehcow.YosherBot.Console.Extensions;
 using Jammehcow.YosherBot.Console.Helpers;
 
 namespace Jammehcow.YosherBot.Console
@@ -13,10 +14,17 @@ namespace Jammehcow.YosherBot.Console
 
         public static BotStartup CreateDefaultBot()
         {
-            var discordBotToken = EnvironmentsHelper.GetDiscordBotToken()
-                .ItOrThrow(new ArgumentException("No bot token was provided"));
+            static void ThrowOnMissingToken() => throw new ArgumentException("No bot token was provided");
 
-            return new BotStartup(discordBotToken);
+            var discordBotToken = EnvironmentsHelper.GetDiscordBotToken()
+                .IfExists(value =>
+                {
+                    // Throw if token is empty, not just null
+                    if (string.IsNullOrWhiteSpace(value)) ThrowOnMissingToken();
+                })
+                .IfMissing(ThrowOnMissingToken);
+
+            return new BotStartup(discordBotToken.It);
         }
 
         private BotStartup(string botToken)
