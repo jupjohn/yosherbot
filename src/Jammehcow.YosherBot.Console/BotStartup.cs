@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Console.Extensions;
 using Jammehcow.YosherBot.Console.Helpers;
@@ -13,6 +14,9 @@ namespace Jammehcow.YosherBot.Console
         private DiscordSocketClient _client;
         private readonly string _botToken;
         private readonly DiscordSocketConfig _sockConfig;
+
+        private CommandService _commandService;
+        private IServiceProvider _serviceProvider;
 
         private readonly IDiscordLogger _logger;
 
@@ -49,7 +53,17 @@ namespace Jammehcow.YosherBot.Console
         private void InitialiseClient()
         {
             _client = new DiscordSocketClient(_sockConfig);
+
+            _commandService = new CommandService(new CommandServiceConfig
+            {
+                LogLevel = LogSeverity.Info,
+                DefaultRunMode = RunMode.Async,
+                IgnoreExtraArgs = true,
+                CaseSensitiveCommands = false
+            });
+
             _client.Log += _logger.HandleLogEventAsync;
+            _client.MessageReceived += HandleOnMessageReceivedAsync;
         }
 
         public async Task Run()
@@ -60,10 +74,26 @@ namespace Jammehcow.YosherBot.Console
             await Task.Delay(-1);
         }
 
-        private static Task GenericLog(LogMessage message)
+        private async Task HandleOnMessageReceivedAsync(SocketMessage socketMessage)
         {
-            System.Console.WriteLine(message.Message);
-            return Task.CompletedTask;
+            // Bail out if it's a System Message.
+            if (!(socketMessage is SocketUserMessage msg)) return;
+
+            // We don't want the bot to respond to itself or other bots.
+            if (msg.Author.Id == _client.CurrentUser.Id || msg.Author.IsBot) return;
+
+            if (string.Equals(msg.Content, "$ping"))
+                await msg.Channel.SendMessageAsync("Pong!");
+
+            // Create a number to track where the prefix ends and the command begins
+            // var pos = 0;
+            // if (msg.HasCharPrefix('$', ref pos))
+            // {
+            //     var context = new SocketCommandContext(_client, msg);
+            //     var result = await _commandService.ExecuteAsync(context, pos, _serviceProvider);
+            //
+            //     // TODO: handle result
+            // }
         }
     }
 }
