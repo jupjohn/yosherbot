@@ -12,6 +12,8 @@ namespace Jammehcow.YosherBot.Console
         private DiscordSocketClient _client;
         private readonly string _botToken;
 
+        private readonly IDiscordLogger _logger;
+
         public static BotStartup CreateDefaultBot()
         {
             static void ThrowOnMissingToken() => throw new ArgumentException("No bot token was provided");
@@ -30,6 +32,8 @@ namespace Jammehcow.YosherBot.Console
         private BotStartup(string botToken)
         {
             _botToken = botToken;
+            // TODO: inject
+            _logger = new GenericDiscordLogger();
         }
 
         public async Task Run()
