@@ -11,7 +11,7 @@ namespace Jammehcow.YosherBot.Console.Helpers
         internal static class Keys
         {
             public const string Environment = "DEPLOYMENT_ENVIRONMENT";
-            public const string DiscordToken = "YOSHR_DISCORD_TOKEN";
+            public const string DiscordToken = "DISCORD_TOKEN";
         }
 
         public static bool IsDevelopment() => Environment.GetEnvironmentVariable(Keys.Environment) == null;
