@@ -4,6 +4,7 @@ using Discord;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Console.Extensions;
 using Jammehcow.YosherBot.Console.Helpers;
+using Jammehcow.YosherBot.Console.Helpers.Logger;
 
 namespace Jammehcow.YosherBot.Console
 {
@@ -11,6 +12,7 @@ namespace Jammehcow.YosherBot.Console
     {
         private DiscordSocketClient _client;
         private readonly string _botToken;
+        private readonly DiscordSocketConfig _sockConfig;
 
         private readonly IDiscordLogger _logger;
 
@@ -34,13 +36,24 @@ namespace Jammehcow.YosherBot.Console
             _botToken = botToken;
             // TODO: inject
             _logger = new GenericDiscordLogger();
+            _sockConfig = new DiscordSocketConfig
+            {
+                LogLevel = LogSeverity.Info,
+                MessageCacheSize = 40,
+                HandlerTimeout = 2000
+            };
+
+            InitialiseClient();
+        }
+
+        private void InitialiseClient()
+        {
+            _client = new DiscordSocketClient(_sockConfig);
+            _client.Log += _logger.HandleLogEventAsync;
         }
 
         public async Task Run()
         {
-            _client = new DiscordSocketClient();
-            _client.Log += GenericLog;
-
             await _client.LoginAsync(TokenType.Bot, _botToken);
             await _client.StartAsync();
 
