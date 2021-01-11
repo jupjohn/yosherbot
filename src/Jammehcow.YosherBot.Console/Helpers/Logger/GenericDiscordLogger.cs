@@ -10,11 +10,12 @@ namespace Jammehcow.YosherBot.Console.Helpers.Logger
         {
             // TODO: handle log levels
             var logLevelLiteral = Enum.GetName(typeof(LogSeverity), logMessage.Severity) ?? nameof(LogSeverity.Info);
+            logLevelLiteral = logLevelLiteral.ToUpperInvariant().PadRight(8);
             var messageParts = EnvironmentsHelper.IsDevelopment()
-                ? new[] {$"{logLevelLiteral}\t", logMessage.Source, logMessage.Message}
-                : new[] {$"{logLevelLiteral}\t", logMessage.Message};
+                ? new[] {$"[{logLevelLiteral}]", logMessage.Source, logMessage.Message}
+                : new[] {$"[{logLevelLiteral}]", logMessage.Message};
 
-            System.Console.WriteLine(string.Join("-", messageParts));
+            System.Console.WriteLine(string.Join(" - ", messageParts));
             if (logMessage.Exception != null)
                 System.Console.WriteLine(logMessage.Exception.ToString());
 
