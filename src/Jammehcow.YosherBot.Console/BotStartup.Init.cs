@@ -34,7 +34,7 @@ namespace Jammehcow.YosherBot.Console
             });
         }
 
-        private static string GetBotToken()
+        internal static string GetBotToken()
         {
             static void ThrowOnMissingToken() => throw new ArgumentException("No bot token was provided");
 
