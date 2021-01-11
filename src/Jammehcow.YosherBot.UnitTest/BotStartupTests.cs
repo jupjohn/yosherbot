@@ -11,14 +11,14 @@ namespace Jammehcow.YosherBot.UnitTest
         public void ShouldFactoryThrow_WhenBotTokenMissing()
         {
             TestHelper.SetBotToken(null);
-            Assert.Throws(typeof(ArgumentException), () => BotStartup.CreateDefaultBot());
+            Assert.Throws(typeof(ArgumentException), () => BotStartup.GetBotToken());
         }
 
         [Test]
         public void ShouldFactoryReturn_WhenBotTokenProvided()
         {
             TestHelper.SetBotToken("abc");
-            Assert.DoesNotThrow(() => BotStartup.CreateDefaultBot());
+            Assert.DoesNotThrow(() => BotStartup.GetBotToken());
         }
     }
 }
