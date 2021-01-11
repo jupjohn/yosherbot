@@ -1,79 +1,32 @@
-﻿using System;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Jammehcow.YosherBot.Console.Extensions;
-using Jammehcow.YosherBot.Console.Helpers;
 using Jammehcow.YosherBot.Console.Helpers.Logger;
+using Microsoft.Extensions.Hosting;
 
 namespace Jammehcow.YosherBot.Console
 {
-    public class BotStartup
+    public partial class BotStartup : IHostedService
     {
         private DiscordSocketClient _client;
-        private readonly string _botToken;
-        private readonly DiscordSocketConfig _sockConfig;
 
         private CommandService _commandService;
-        private IServiceProvider _serviceProvider;
 
         private readonly IDiscordLogger _logger;
 
-        public static BotStartup CreateDefaultBot()
+        private BotStartup(CommandService commandService)
         {
-            static void ThrowOnMissingToken() => throw new ArgumentException("No bot token was provided");
-
-            var discordBotToken = EnvironmentsHelper.GetDiscordBotToken()
-                .IfExists(value =>
-                {
-                    // Throw if token is empty, not just null
-                    if (string.IsNullOrWhiteSpace(value)) ThrowOnMissingToken();
-                })
-                .IfMissing(ThrowOnMissingToken);
-
-            return new BotStartup(discordBotToken.It);
-        }
-
-        private BotStartup(string botToken)
-        {
-            _botToken = botToken;
             // TODO: inject
             _logger = new GenericDiscordLogger();
-            _sockConfig = new DiscordSocketConfig
-            {
-                LogLevel = LogSeverity.Info,
-                MessageCacheSize = 40,
-                HandlerTimeout = 2000
-            };
+            _commandService = commandService;
 
             InitialiseClient();
+            InitialiseCommands();
         }
 
-        private void InitialiseClient()
-        {
-            _client = new DiscordSocketClient(_sockConfig);
-
-            _commandService = new CommandService(new CommandServiceConfig
-            {
-                LogLevel = LogSeverity.Info,
-                DefaultRunMode = RunMode.Async,
-                IgnoreExtraArgs = true,
-                CaseSensitiveCommands = false
-            });
-
-            _client.Log += _logger.HandleLogEventAsync;
-            _client.MessageReceived += HandleOnMessageReceivedAsync;
-        }
-
-        public async Task Run()
-        {
-            await _client.LoginAsync(TokenType.Bot, _botToken);
-            await _client.StartAsync();
-
-            await Task.Delay(-1);
-        }
-
+        // TODO: move to handler class
         private async Task HandleOnMessageReceivedAsync(SocketMessage socketMessage)
         {
             // Bail out if it's a System Message.
@@ -85,6 +38,9 @@ namespace Jammehcow.YosherBot.Console
             if (string.Equals(msg.Content, "$ping"))
                 await msg.Channel.SendMessageAsync("Pong!");
 
+            // if (string.Equals(msg.Content, "$stop"))
+            //     await this();
+
             // Create a number to track where the prefix ends and the command begins
             // var pos = 0;
             // if (msg.HasCharPrefix('$', ref pos))
@@ -94,6 +50,19 @@ namespace Jammehcow.YosherBot.Console
             //
             //     // TODO: handle result
             // }
+        }
+
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            await _client.LoginAsync(TokenType.Bot, GetBotToken());
+            await _client.StartAsync();
+
+            await Task.Delay(-1, cancellationToken);
+        }
+
+        public async Task StopAsync(CancellationToken _)
+        {
+            await _client.StopAsync();
         }
     }
 }
