@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="6.1.0" />
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+        <PackageReference Include="Discord.Net" Version="2.2.0" />
+        <PackageReference Include="NUnit" Version="3.12.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Jammehcow.YosherBot.Command\Jammehcow.YosherBot.Command.csproj" />
+      <ProjectReference Include="..\Jammehcow.YosherBot.Console\Jammehcow.YosherBot.Console.csproj" />
+      <ProjectReference Include="..\Jammehcow.YosherBot.Integration\Jammehcow.YosherBot.Integration.csproj" />
+    </ItemGroup>
+
+</Project>
