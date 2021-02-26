@@ -12,6 +12,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         private const string ColorMeRolePrefix = "colorme";
 
         [Command("colorme")]
+        [Alias("colourme", "setcolor", "setcolour")]
         [Summary("Sets your colour using a hex code")]
         public async Task HandleColourSet([Summary("A full or shorthand hex code")] string hexCode)
         {
@@ -43,6 +44,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         }
 
         [Command("uncolorme")]
+        [Alias("uncolourme", "unsetcolor", "unsetcolour", "removecolor", "removecolour")]
         [Summary("Removes your colour")]
         public async Task HandleColourRemove()
         {
