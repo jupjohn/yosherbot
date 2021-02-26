@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -8,61 +9,61 @@ using Microsoft.Extensions.Hosting;
 
 namespace Jammehcow.YosherBot.Console
 {
-    public partial class BotStartup : IHostedService
+    public partial class BotStartup : BackgroundService
     {
-        private DiscordSocketClient _client;
-
-        private CommandService _commandService;
+        private readonly DiscordSocketClient _client;
+        private readonly CommandService _commandService;
+        private readonly IServiceProvider _serviceProvider;
 
         private readonly IDiscordLogger _logger;
 
-        private BotStartup(CommandService commandService)
+        public BotStartup(IDiscordLogger genericDiscordLogger, CommandService commandService,
+            IServiceProvider serviceProvider, DiscordSocketClient client)
         {
-            // TODO: inject
-            _logger = new GenericDiscordLogger();
+            // TODO: use MS logging factory
+            _logger = genericDiscordLogger;
             _commandService = commandService;
-
-            InitialiseClient();
-            InitialiseCommands();
+            _serviceProvider = serviceProvider;
+            _client = client;
         }
 
         // TODO: move to handler class
         private async Task HandleOnMessageReceivedAsync(SocketMessage socketMessage)
         {
-            // Bail out if it's a System Message.
-            if (!(socketMessage is SocketUserMessage msg)) return;
+            var message = socketMessage as SocketUserMessage;
+            if (message == null)
+                return;
 
-            // We don't want the bot to respond to itself or other bots.
-            if (msg.Author.Id == _client.CurrentUser.Id || msg.Author.IsBot) return;
+            var argPos = 0;
+            // TODO: move prefix to config
+            if (!message.HasCharPrefix('$', ref argPos) || message.Author.IsBot)
+                return;
 
-            if (string.Equals(msg.Content, "$ping"))
-                await msg.Channel.SendMessageAsync("Pong!");
+            if (message.Content.Substring(argPos) == "discon")
+            {
+                await StopAsync(CancellationToken.None);
+                return;
+            }
 
-            // if (string.Equals(msg.Content, "$stop"))
-            //     await this();
+            var context = new SocketCommandContext(_client, message);
 
-            // Create a number to track where the prefix ends and the command begins
-            // var pos = 0;
-            // if (msg.HasCharPrefix('$', ref pos))
-            // {
-            //     var context = new SocketCommandContext(_client, msg);
-            //     var result = await _commandService.ExecuteAsync(context, pos, _serviceProvider);
-            //
-            //     // TODO: handle result
-            // }
+            await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await InitialiseClientAsync();
             await _client.LoginAsync(TokenType.Bot, GetBotToken());
             await _client.StartAsync();
 
-            await Task.Delay(-1, cancellationToken);
-        }
-
-        public async Task StopAsync(CancellationToken _)
-        {
-            await _client.StopAsync();
+            try
+            {
+                await Task.Delay(Timeout.Infinite, stoppingToken);
+            }
+            finally
+            {
+                await _client.StopAsync();
+            }
         }
     }
 }

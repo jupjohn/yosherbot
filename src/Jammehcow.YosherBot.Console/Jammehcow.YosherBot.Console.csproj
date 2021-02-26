@@ -16,4 +16,9 @@
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Jammehcow.YosherBot.Command\Jammehcow.YosherBot.Command.csproj" />
+      <ProjectReference Include="..\Jammehcow.YosherBot.Common\Jammehcow.YosherBot.Common.csproj" />
+    </ItemGroup>
+
 </Project>
