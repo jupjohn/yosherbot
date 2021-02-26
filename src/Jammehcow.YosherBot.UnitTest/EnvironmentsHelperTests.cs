@@ -1,5 +1,4 @@
-﻿using System;
-using Jammehcow.YosherBot.Console.Helpers;
+﻿using Jammehcow.YosherBot.Console.Helpers;
 using NUnit.Framework;
 
 namespace Jammehcow.YosherBot.UnitTest
