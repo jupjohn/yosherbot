@@ -43,7 +43,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         }
 
         [Command("uncolorme")]
-        [Summary("Unsets your colour")]
+        [Summary("Removes your colour")]
         public async Task HandleColourRemove()
         {
             var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id, ColorMeRolePrefix);
