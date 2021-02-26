@@ -14,6 +14,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         [Command("colorme")]
         [Alias("colourme", "setcolor", "setcolour")]
         [Summary("Sets your colour using a hex code")]
+        // ReSharper disable once UnusedMember.Global
         public async Task HandleColourSet([Summary("A full or shorthand hex code")] string hexCode)
         {
             var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id, ColorMeRolePrefix);
@@ -46,6 +47,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         [Command("uncolorme")]
         [Alias("uncolourme", "unsetcolor", "unsetcolour", "removecolor", "removecolour")]
         [Summary("Removes your colour")]
+        // ReSharper disable once UnusedMember.Global
         public async Task HandleColourRemove()
         {
             var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id, ColorMeRolePrefix);
