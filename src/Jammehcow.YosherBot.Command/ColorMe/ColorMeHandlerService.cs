@@ -50,7 +50,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                 props.Color = roleColour;
                 props.Hoist = false;
                 props.Mentionable = false;
-                props.Position = userTopRolePosition;
+                props.Position = userTopRolePosition + 1;
             });
             await user.AddRoleAsync(resolvedRole);
             await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
