@@ -42,6 +42,23 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
         }
 
+        [Command("uncolorme")]
+        [Summary("Unsets your colour")]
+        public async Task HandleColourRemove()
+        {
+            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id, ColorMeRolePrefix);
+            var resolvedRole = Context.Guild.Roles.SingleOrDefault(r => r.Name == generatedRoleName);
+
+            if (resolvedRole == null)
+            {
+                await ReplyAsync("You don't have a color; I can't remove something that doesn't exist!");
+                return;
+            }
+
+            await resolvedRole.DeleteAsync();
+            await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
+        }
+
         private static async Task<IRole> CreateColorRoleAsync(IGuild guild, string roleName)
         {
             // TODO: handle throws
