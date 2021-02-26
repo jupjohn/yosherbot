@@ -10,6 +10,8 @@ namespace Jammehcow.YosherBot.Console
         {
             base.Load(builder);
 
+            // TODO: move registrations to here
+
             builder.RegisterType<CommandService>()
                 .SingleInstance();
         }
