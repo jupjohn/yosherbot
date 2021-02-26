@@ -22,7 +22,6 @@ namespace Jammehcow.YosherBot.Console
         public BotStartup(IDiscordLogger genericDiscordLogger, CommandService commandService,
             IServiceProvider serviceProvider, DiscordSocketClient client, IConfiguration configuration)
         {
-            // TODO: use MS logging factory
             _logger = genericDiscordLogger;
             _commandService = commandService;
             _serviceProvider = serviceProvider;
