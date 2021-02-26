@@ -30,6 +30,7 @@ namespace Jammehcow.YosherBot.Console
         // TODO: move to handler class
         private async Task HandleOnMessageReceivedAsync(SocketMessage socketMessage)
         {
+            // ReSharper disable once UseNegatedPatternMatching
             var message = socketMessage as SocketUserMessage;
             if (message == null)
                 return;
