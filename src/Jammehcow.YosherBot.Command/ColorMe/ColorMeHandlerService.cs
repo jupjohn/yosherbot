@@ -28,7 +28,8 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         // ReSharper disable once UnusedMember.Global
         public async Task HandleColourSet([Summary("A full or shorthand hex code")] string hexCode)
         {
-            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id, ColorMeRolePrefix);
+            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id,
+                _configuration["Module:ColorMe:RolePrefix"]);
 
             if (!HexColourHelper.TryGetColourFromHexString(hexCode, out var colour))
             {
@@ -61,7 +62,8 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         // ReSharper disable once UnusedMember.Global
         public async Task HandleColourRemove()
         {
-            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id, ColorMeRolePrefix);
+            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id,
+                _configuration["Module:ColorMe:RolePrefix"]);
             var resolvedRole = Context.Guild.Roles.SingleOrDefault(r => r.Name == generatedRoleName);
 
             if (resolvedRole == null)
