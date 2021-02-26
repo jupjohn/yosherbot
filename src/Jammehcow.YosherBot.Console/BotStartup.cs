@@ -38,8 +38,9 @@ namespace Jammehcow.YosherBot.Console
                 return;
 
             var argPos = 0;
-            // TODO: move prefix to config
-            if (!message.HasCharPrefix('$', ref argPos) || message.Author.IsBot)
+            // TODO: replace raw reference to configuration
+            var prefix = _configuration["Bot:Prefix"][0];
+            if (!message.HasCharPrefix(prefix, ref argPos) || message.Author.IsBot)
                 return;
 
             if (message.Content.Substring(argPos) == "discon")
