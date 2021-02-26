@@ -63,6 +63,7 @@ namespace Jammehcow.YosherBot.Console
             }
             finally
             {
+                // This doesn't hit when using debugger
                 await _client.StopAsync();
             }
         }
