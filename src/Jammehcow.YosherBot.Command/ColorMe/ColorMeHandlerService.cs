@@ -3,13 +3,24 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Jammehcow.YosherBot.Command.ColorMe.Helpers;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Command.ColorMe
 {
     public class ColorMeHandlerService : ModuleBase<SocketCommandContext>
     {
-        // TODO: move to config
-        private const string ColorMeRolePrefix = "colorme";
+        private readonly ILogger<ColorMeHandlerService> _logger;
+        private readonly IConfiguration _configuration;
+
+        public ColorMeHandlerService(ILogger<ColorMeHandlerService> logger, IConfiguration configuration)
+        {
+            // TODO: change to config subclass like "ColorMeModuleSettings"
+            // This is nasty because now the whole class has access to every app setting including the
+            //   bot token. Stop this
+            _logger = logger;
+            _configuration = configuration;
+        }
 
         [Command("colorme")]
         [Alias("colourme", "setcolor", "setcolour")]
