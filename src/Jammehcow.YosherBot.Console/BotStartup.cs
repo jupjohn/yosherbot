@@ -5,6 +5,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Console.Helpers.Logger;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Jammehcow.YosherBot.Console
@@ -12,19 +13,21 @@ namespace Jammehcow.YosherBot.Console
     public partial class BotStartup : BackgroundService
     {
         private readonly DiscordSocketClient _client;
+        private readonly IConfiguration _configuration;
         private readonly CommandService _commandService;
         private readonly IServiceProvider _serviceProvider;
 
         private readonly IDiscordLogger _logger;
 
         public BotStartup(IDiscordLogger genericDiscordLogger, CommandService commandService,
-            IServiceProvider serviceProvider, DiscordSocketClient client)
+            IServiceProvider serviceProvider, DiscordSocketClient client, IConfiguration configuration)
         {
             // TODO: use MS logging factory
             _logger = genericDiscordLogger;
             _commandService = commandService;
             _serviceProvider = serviceProvider;
             _client = client;
+            _configuration = configuration;
         }
 
         // TODO: move to handler class
