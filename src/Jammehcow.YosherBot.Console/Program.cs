@@ -1,8 +1,7 @@
 ﻿using Discord;
-using Discord.Commands;
 using Discord.WebSocket;
-using Jammehcow.YosherBot.Console.Helpers.Logger;
-using Microsoft.Extensions.DependencyInjection;
+using Jammehcow.YosherBot.Console.Extensions;
+using Jammehcow.YosherBot.Console.Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -14,23 +13,16 @@ namespace Jammehcow.YosherBot.Console
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureDiscordBot(() => new DiscordSocketConfig
+                {
+                    LogLevel = EnvironmentsHelper.IsDevelopment() ? LogSeverity.Verbose : LogSeverity.Info,
+                    MessageCacheSize = 40,
+                    HandlerTimeout = 2000
+                })
                 .ConfigureLogging(builder =>
                 {
                     builder.ClearProviders();
                     builder.AddConsole();
-                })
-                .ConfigureServices(services =>
-                {
-                    var sockConfig = new DiscordSocketConfig
-                    {
-                        LogLevel = LogSeverity.Verbose,
-                        MessageCacheSize = 40,
-                        HandlerTimeout = 2000
-                    };
-                    services.AddSingleton<DiscordSocketClient>(new DiscordSocketClient(sockConfig));
-                    services.AddSingleton<CommandService>();
-                    services.AddScoped<IDiscordLogger, GenericDiscordLogger>();
-                    services.AddHostedService<BotStartup>();
                 });
     }
 }
