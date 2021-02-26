@@ -31,7 +31,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id,
                 _configuration["Module:ColorMe:RolePrefix"]);
 
-            if (!HexColourHelper.TryGetColourFromHexString(hexCode, out var colour))
+            if (!HexColourHelper.TryGetColorFromHexString(hexCode, out var color))
             {
                 await ReplyAsync($"Your hex code ``{hexCode}`` was invalid. Try something like #00FF00 or #abc");
                 return;
@@ -42,12 +42,12 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                                await CreateColorRoleAsync(Context.Guild, generatedRoleName);
 
             // Set the colour of the role to the one specified by the user
-            var roleColour = new Optional<Color>(new Color(colour.R, colour.G, colour.B));
+            var roleColor = new Optional<Color>(new Color(color.R, color.G, color.B));
             var user = Context.Guild.GetUser(Context.User.Id);
             var userTopRolePosition = user.Roles.Max(r => r.Position);
             await resolvedRole.ModifyAsync(props =>
             {
-                props.Color = roleColour;
+                props.Color = roleColor;
                 props.Hoist = false;
                 props.Mentionable = false;
                 props.Position = userTopRolePosition + 1;
