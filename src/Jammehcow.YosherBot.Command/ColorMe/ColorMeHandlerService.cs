@@ -26,7 +26,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         [Alias("colourme", "setcolor", "setcolour")]
         [Summary("Sets your colour using a hex code")]
         // ReSharper disable once UnusedMember.Global
-        public async Task HandleColourSet([Summary("A full or shorthand hex code")] string hexCode)
+        public async Task HandleColourSet([Summary("A full or shorthand hex code")] string hexCode = "help")
         {
             // TODO: add permissions check, feature independent
             // TODO: help commands, use subclasses?
