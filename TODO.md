@@ -17,3 +17,7 @@
 
  - ...
 
+## Way too out of scope
+
+ - Add generic help message to modules (use middleware to extract help string??)
+
