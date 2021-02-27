@@ -56,8 +56,16 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             // Set the colour of the role to the one specified by the user
             var roleColor = new Optional<Color>(new Color(color.R, color.G, color.B));
 
-            // TODO: if this fails?
             var user = Context.Guild.GetUser(Context.User.Id);
+            if (user == null)
+            {
+                _logger.LogError("Unable to find user with ID {UserId} in guild {GuildId}", Context.User.Id,
+                    Context.Guild.Id);
+                await ReplyAsync("An error occured trying to find you in the guild user list. Try again or wait " +
+                                 "a minute for the list to complete");
+                return;
+            }
+
             var userTopRolePosition = user.Roles.Max(r => r.Position);
 
             _logger.LogInformation("Top role for GuildUser {GuildUserId} is at position {RolePosition}", user.Id,
