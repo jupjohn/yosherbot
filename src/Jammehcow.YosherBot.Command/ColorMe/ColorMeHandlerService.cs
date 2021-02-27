@@ -35,6 +35,13 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id,
                 _configuration["Module:ColorMe:RolePrefix"]);
 
+            if (hexCode == "help")
+            {
+                _logger.LogInformation("Sending help message for {User}", Context.User.ToString());
+                await RootHelpMessage();
+                return;
+            }
+
             _logger.LogInformation("Generated role name of {RoleName} for user {User}", generatedRoleName,
                 Context.User.ToString());
 
@@ -96,6 +103,15 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         {
             // TODO: handle throws
             return await guild.CreateRoleAsync(roleName, isMentionable: false);
+        }
+
+        private async Task RootHelpMessage()
+        {
+            await ReplyAsync(
+                "Help for `colorme`: \n" +
+                "  - `$colorme` - shows this message\n" +
+                "  - `$colorme help` - shows this message\n" +
+                "  - `$colorme <hex code>` - colors your role with the hex code supplied (e.g. `#aabbcc` or `#abc`)");
         }
     }
 }
