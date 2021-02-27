@@ -26,9 +26,16 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         [Alias("uncolourme", "unsetcolor", "unsetcolour", "removecolor", "removecolour")]
         [Summary("Removes your colour")]
         // ReSharper disable once UnusedMember.Global
-        public async Task HandleColourRemove()
+        public async Task HandleColourRemove(string subCommand = null)
         {
             _logger.LogInformation("Handling uncolorme command call for user {User}", Context.User.ToString());
+
+            if (subCommand == "help")
+            {
+                _logger.LogInformation("Sending help message for {User}", Context.User.ToString());
+                await UnColorMeHelp();
+                return;
+            }
 
             var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id,
                 _configuration["Module:ColorMe:RolePrefix"]);
@@ -53,6 +60,12 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _logger.LogInformation("Role {RoleName} deleted!", generatedRoleName);
 
             await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
+        }
+
+        private async Task UnColorMeHelp()
+        {
+            await ReplyAsync("Help for `uncolorme`: \n" +
+                             "  - `$uncolorme` - removes the color from your name");
         }
     }
 }
