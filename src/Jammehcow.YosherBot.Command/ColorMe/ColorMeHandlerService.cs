@@ -92,26 +92,6 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _logger.LogInformation("Successfully handled colorme command for user {User}", user.ToString());
         }
 
-        [Command("uncolorme")]
-        [Alias("uncolourme", "unsetcolor", "unsetcolour", "removecolor", "removecolour")]
-        [Summary("Removes your colour")]
-        // ReSharper disable once UnusedMember.Global
-        public async Task HandleColourRemove()
-        {
-            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id,
-                _configuration["Module:ColorMe:RolePrefix"]);
-            var resolvedRole = Context.Guild.Roles.SingleOrDefault(r => r.Name == generatedRoleName);
-
-            if (resolvedRole == null)
-            {
-                await ReplyAsync("You don't have a color; I can't remove something that doesn't exist!");
-                return;
-            }
-
-            await resolvedRole.DeleteAsync();
-            await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
-        }
-
         private static async Task<IRole> CreateColorRoleAsync(IGuild guild, string roleName)
         {
             // TODO: handle throws
