@@ -10,8 +10,8 @@ namespace Jammehcow.YosherBot.Command.ColorMe
 {
     public class UnColorMeCommandModule : ModuleBase<SocketCommandContext>
     {
-        private ILogger<UnColorMeCommandModule> _logger;
-        private IConfiguration _configuration;
+        private readonly ILogger<UnColorMeCommandModule> _logger;
+        private readonly IConfiguration _configuration;
 
         public UnColorMeCommandModule(ILogger<UnColorMeCommandModule> logger, IConfiguration configuration)
         {
