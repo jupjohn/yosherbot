@@ -28,6 +28,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         // ReSharper disable once UnusedMember.Global
         public async Task HandleColourSet([Summary("A full or shorthand hex code")] string hexCode)
         {
+            // TODO: add permissions check, feature independent
             // TODO: help commands, use subclasses?
             _logger.LogInformation("Handling colorme command call for user {User}", Context.User.ToString());
 
