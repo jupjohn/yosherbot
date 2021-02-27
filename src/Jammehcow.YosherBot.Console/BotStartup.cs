@@ -43,12 +43,6 @@ namespace Jammehcow.YosherBot.Console
             if (!message.HasCharPrefix(prefix, ref argPos) || message.Author.IsBot)
                 return;
 
-            if (message.Content.Substring(argPos) == "discon")
-            {
-                await StopAsync(CancellationToken.None);
-                return;
-            }
-
             var context = new SocketCommandContext(_client, message);
 
             await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
