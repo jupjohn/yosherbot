@@ -1,3 +1,6 @@
+using System.Linq;
+using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Jammehcow.YosherBot.Command.ColorMe.Helpers;
 using Microsoft.Extensions.Configuration;
