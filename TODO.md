@@ -4,7 +4,6 @@
 
  - Replace raw IConfiguration references with section-specific classes
  - Refactor message event handler into own service (scoped)
- - Migrate DI into AutoFac DI container
  - Dockerize the solution so it can be easily deployed on a node
 
 
