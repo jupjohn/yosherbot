@@ -10,7 +10,6 @@
 ## Color commands
 
  - Help command for colorme & uncolorme as well as parent command
- - Split colorme handler service into command-specific services
 
 ## Role commands
 
