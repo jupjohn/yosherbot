@@ -2,7 +2,7 @@
 
 ## Basic crap
 
- - Replace raw IConfiguration references with section-specific classes
+ - Replace raw IConfiguration references with options
  - Refactor message event handler into own service (scoped)
  - Dockerize the solution so it can be easily deployed on a node
 
