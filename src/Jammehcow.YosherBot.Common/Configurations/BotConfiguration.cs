@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Jammehcow.YosherBot.Common.Configurations
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class BotConfiguration : BaseConfiguration
     {
         private const string SectionName = "Bot";
@@ -10,6 +11,6 @@ namespace Jammehcow.YosherBot.Common.Configurations
         {
         }
 
-        public string Prefix { get; internal set; }
+        public string Prefix { get; internal set; } = null!;
     }
 }
