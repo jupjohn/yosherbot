@@ -5,7 +5,7 @@ namespace Jammehcow.YosherBot.Common.Configurations
     // ReSharper disable once ClassNeverInstantiated.Global
     public class BotConfiguration : BaseConfiguration
     {
-        private const string SectionName = "Bot";
+        private const string SectionName = "General";
 
         public BotConfiguration(IConfiguration configuration) : base(configuration, SectionName)
         {
