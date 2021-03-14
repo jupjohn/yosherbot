@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Jammehcow.YosherBot.Command.ColorMe.Helpers;
-using Microsoft.Extensions.Configuration;
+using Jammehcow.YosherBot.Common.Configurations;
 using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Command.ColorMe
@@ -11,15 +11,15 @@ namespace Jammehcow.YosherBot.Command.ColorMe
     public class UnColorMeCommandModule : ModuleBase<SocketCommandContext>
     {
         private readonly ILogger<UnColorMeCommandModule> _logger;
-        private readonly IConfiguration _configuration;
+        private readonly ColorMeModuleConfiguration _colorMeConfig;
 
-        public UnColorMeCommandModule(ILogger<UnColorMeCommandModule> logger, IConfiguration configuration)
+        public UnColorMeCommandModule(ILogger<UnColorMeCommandModule> logger, ColorMeModuleConfiguration colorMeConfig)
         {
             // TODO: change to config subclass like "ColorMeModuleSettings"
             // This is nasty because now the whole class has access to every app setting including the
             //   bot token. Stop this
             _logger = logger;
-            _configuration = configuration;
+            _colorMeConfig = colorMeConfig;
         }
 
         [Command("uncolorme")]
@@ -37,8 +37,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                 return;
             }
 
-            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id,
-                _configuration["Module:ColorMe:RolePrefix"]);
+            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id, _colorMeConfig.RolePrefix);
 
             _logger.LogInformation("Generated role name of {RoleName} for user {User}", generatedRoleName,
                 Context.User.ToString());

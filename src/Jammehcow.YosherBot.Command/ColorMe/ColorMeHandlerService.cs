@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Jammehcow.YosherBot.Command.ColorMe.Helpers;
-using Microsoft.Extensions.Configuration;
+using Jammehcow.YosherBot.Common.Configurations;
 using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Command.ColorMe
@@ -11,15 +11,15 @@ namespace Jammehcow.YosherBot.Command.ColorMe
     public class ColorMeHandlerService : ModuleBase<SocketCommandContext>
     {
         private readonly ILogger<ColorMeHandlerService> _logger;
-        private readonly IConfiguration _configuration;
+        private readonly ColorMeModuleConfiguration _colorMeConfig;
 
-        public ColorMeHandlerService(ILogger<ColorMeHandlerService> logger, IConfiguration configuration)
+        public ColorMeHandlerService(ILogger<ColorMeHandlerService> logger, ColorMeModuleConfiguration colorMeConfig)
         {
             // TODO: change to config subclass like "ColorMeModuleSettings"
             // This is nasty because now the whole class has access to every app setting including the
             //   bot token. Stop this
             _logger = logger;
-            _configuration = configuration;
+            _colorMeConfig = colorMeConfig;
         }
 
         [Command("colorme")]
@@ -32,8 +32,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             // TODO: help commands, use subclasses?
             _logger.LogInformation("Handling colorme command call for user {User}", Context.User.ToString());
 
-            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id,
-                _configuration["Module:ColorMe:RolePrefix"]);
+            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id, _colorMeConfig.RolePrefix);
 
             if (hexCode == "help")
             {
