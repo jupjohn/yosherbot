@@ -21,8 +21,12 @@ namespace Jammehcow.YosherBot.Console
                 externalCancellationToken ?? CancellationToken.None);
 
             // ReSharper disable once MethodSupportsCancellation
-            _client.Disconnected += _ =>
+            _client.Disconnected += exception =>
             {
+                // We just want to handle the managed disconnects
+                if (exception is not TaskCanceledException)
+                    return Task.CompletedTask;
+
                 // TODO: handle and log exceptions. This is only meant for managed quit events
                 if (!cancellationSource.IsCancellationRequested)
                     cancellationSource.Cancel();
