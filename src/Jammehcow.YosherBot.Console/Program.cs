@@ -1,7 +1,12 @@
+﻿using System;
+using System.Linq;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Discord;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Console.Extensions;
 using Jammehcow.YosherBot.Console.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -24,6 +29,17 @@ namespace Jammehcow.YosherBot.Console
                 {
                     builder.ClearProviders();
                     builder.AddConsole();
-                });
+                })
+                .ConfigureServices(builder =>
+                {
+                    builder.AddOptions();
+                })
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
+                {
+                    var ownedAssemblies = AppDomain.CurrentDomain.GetAssemblies()
+                        .Where(a => a.GetName().FullName.Contains(nameof(YosherBot)))
+                        .ToArray();
+                    builder.RegisterAssemblyModules(ownedAssemblies);
+                }));
     }
 }
