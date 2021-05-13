@@ -1,10 +1,18 @@
 ﻿using Autofac;
+using Jammehcow.YosherBot.Common.Configurations;
+using Jammehcow.YosherBot.Common.Extensions;
 
 namespace Jammehcow.YosherBot.Console
 {
     // ReSharper disable once UnusedType.Global
     public class ServiceRegistrationModule : Module
     {
-        // TODO: use for other services
+        protected override void Load(ContainerBuilder builder)
+        {
+            base.Load(builder);
+
+            builder.RegisterConfiguration<GeneralConfiguration>();
+            builder.RegisterConfiguration<ColorMeModuleConfiguration>();
+        }
     }
 }
