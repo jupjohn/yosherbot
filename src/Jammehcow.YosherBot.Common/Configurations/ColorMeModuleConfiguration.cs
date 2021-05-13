@@ -1,15 +1,11 @@
-using Microsoft.Extensions.Configuration;
+using DankHappyBot.Service.Configuration;
 
 namespace Jammehcow.YosherBot.Common.Configurations
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class ColorMeModuleConfiguration : BaseConfiguration
+    public class ColorMeModuleConfiguration : IPrefixedOptions
     {
-        private const string SectionName = "Module:ColourMe";
-
-        public ColorMeModuleConfiguration(IConfiguration configuration) : base(configuration, SectionName)
-        {
-        }
+        public string GetPrefix() => "Module:ColourMe";
 
         public string RolePrefix { get; internal set; } = null!;
     }
