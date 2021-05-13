@@ -73,6 +73,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                 return;
             }
 
+            // FIXME: this occasionally returns 0 when roles are present
             var userTopRolePosition = user.Roles.Max(r => r.Position);
 
             _logger.LogInformation("Top role for GuildUser {GuildUserId} is at position {RolePosition}", user.Id,
