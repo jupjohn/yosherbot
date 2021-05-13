@@ -11,11 +11,15 @@
 
  - Help command for colorme & uncolorme as well as parent command
 
-## Role commands
-
- - ...
-
 ## Way too out of scope
 
  - Add generic help message to modules (use middleware to extract help string??)
 
+
+## Feature suggestions:
+
+ - Color me
+ - Twitch stream notifs
+ - UD
+ - Hide/show text channels based on connected voice channel
+ - Role commands
