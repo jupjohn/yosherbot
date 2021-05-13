@@ -54,15 +54,25 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _logger.LogInformation("Parsed hex code {HexCode} as RGB value ({R}, {G}, {B})", hexCode, color.R,
                 color.G, color.B);
 
-
-            // Attempt to resolve the role and create if it doesn't exist
-            var resolvedRole = Context.Guild.Roles.SingleOrDefault(r => r.Name == generatedRoleName) ??
-                               await CreateColorRoleAsync(Context.Guild, generatedRoleName);
-            _logger.LogInformation("Resolved role {RoleName} in guild {GuildId}", generatedRoleName, Context.Guild.Id);
-
             // Set the colour of the role to the one specified by the user
             var roleColor = new Optional<Color>(new Color(color.R, color.G, color.B));
 
+            // Attempt to resolve the role and create if it doesn't exist
+            var possibleResolvedRole = Context.Guild.Roles.SingleOrDefault(r => r.Name == generatedRoleName);
+
+            if (possibleResolvedRole?.Color == roleColor.Value)
+            {
+                _logger.LogInformation("User {GuildUserId} already has the requested color {ColorHex}", Context.User.Id,
+                    hexCode);
+
+                await Context.Message.ReplyAsync("You already have that color!");
+                return;
+            }
+
+            var resolvedRole = possibleResolvedRole ?? await CreateColorRoleAsync(Context.Guild, generatedRoleName);
+            _logger.LogInformation("Resolved role {RoleName} in guild {GuildId}", generatedRoleName, Context.Guild.Id);
+
+            // Grab the user in the context of the guild
             var user = Context.Guild.GetUser(Context.User.Id);
             if (user == null)
             {
