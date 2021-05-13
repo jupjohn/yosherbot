@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Console.Extensions;
 using Jammehcow.YosherBot.Console.Helpers;
@@ -17,7 +17,8 @@ namespace Jammehcow.YosherBot.Console
                 {
                     LogLevel = EnvironmentsHelper.IsDevelopment() ? LogSeverity.Verbose : LogSeverity.Info,
                     MessageCacheSize = 40,
-                    HandlerTimeout = 2000
+                    HandlerTimeout = 2000,
+                    AlwaysDownloadUsers = true
                 })
                 .ConfigureLogging(builder =>
                 {
