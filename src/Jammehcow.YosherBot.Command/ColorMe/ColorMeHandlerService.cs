@@ -69,7 +69,6 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                 return;
             }
 
-            var resolvedRole = possibleResolvedRole ?? await CreateColorRoleAsync(Context.Guild, generatedRoleName);
             _logger.LogInformation("Resolved role {RoleName} in guild {GuildId}", generatedRoleName, Context.Guild.Id);
 
             // Grab the user in the context of the guild
@@ -89,6 +88,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _logger.LogInformation("Top role for GuildUser {GuildUserId} is at position {RolePosition}", user.Id,
                 userTopRolePosition);
 
+            var resolvedRole = possibleResolvedRole ?? await CreateColorRoleAsync(Context.Guild, generatedRoleName);
             await resolvedRole.ModifyAsync(props =>
             {
                 props.Color = roleColor;
