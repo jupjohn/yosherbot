@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Jammehcow.YosherBot.Common.Configurations;
 using Jammehcow.YosherBot.Console.Helpers.Logger;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,14 +14,14 @@ namespace Jammehcow.YosherBot.Console
     public partial class BotStartup : BackgroundService
     {
         private readonly DiscordSocketClient _client;
-        private readonly IConfiguration _configuration;
+        private readonly GeneralConfiguration _configuration;
         private readonly CommandService _commandService;
         private readonly IServiceProvider _serviceProvider;
 
         private readonly IDiscordLogger _logger;
 
         public BotStartup(IDiscordLogger genericDiscordLogger, CommandService commandService,
-            IServiceProvider serviceProvider, DiscordSocketClient client, IConfiguration configuration)
+            IServiceProvider serviceProvider, DiscordSocketClient client, GeneralConfiguration configuration)
         {
             _logger = genericDiscordLogger;
             _commandService = commandService;
@@ -38,9 +39,8 @@ namespace Jammehcow.YosherBot.Console
                 return;
 
             var argPos = 0;
-            // TODO: replace raw reference to configuration
-            var prefix = _configuration["Bot:Prefix"][0];
-            if (!message.HasCharPrefix(prefix, ref argPos) || message.Author.IsBot)
+            var prefix = _configuration.Prefix;
+            if (!message.HasStringPrefix(prefix, ref argPos) || message.Author.IsBot)
                 return;
 
             var context = new SocketCommandContext(_client, message);
