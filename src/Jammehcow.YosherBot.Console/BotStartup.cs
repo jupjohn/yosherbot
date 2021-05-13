@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
@@ -17,15 +17,17 @@ namespace Jammehcow.YosherBot.Console
         private readonly GeneralConfiguration _configuration;
         private readonly CommandService _commandService;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IHostApplicationLifetime _applicationLifetime;
 
         private readonly IDiscordLogger _logger;
 
         public BotStartup(IDiscordLogger genericDiscordLogger, CommandService commandService,
-            IServiceProvider serviceProvider, DiscordSocketClient client, GeneralConfiguration configuration)
+            IServiceProvider serviceProvider, IHostApplicationLifetime applicationLifetime, DiscordSocketClient client, GeneralConfiguration configuration)
         {
             _logger = genericDiscordLogger;
             _commandService = commandService;
             _serviceProvider = serviceProvider;
+            _applicationLifetime = applicationLifetime;
             _client = client;
             _configuration = configuration;
         }
