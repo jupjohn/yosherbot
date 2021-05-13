@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Discord;
@@ -52,18 +52,28 @@ namespace Jammehcow.YosherBot.Console
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await InitialiseClientAsync();
+
+            using var cancellationSource = await InitialiseClientAsync(stoppingToken);
+
             await _client.LoginAsync(TokenType.Bot, GetBotToken());
             await _client.StartAsync();
 
             try
             {
-                await Task.Delay(Timeout.Infinite, stoppingToken);
+                await Task.Delay(Timeout.Infinite, cancellationSource.Token);
             }
             finally
             {
-                // This doesn't hit when using debugger
-                await _client.StopAsync();
+                // There's a chance this has already been stopped internally so don't re-call it (might be noop anyways)
+                if (_client.ConnectionState == ConnectionState.Connected)
+                    await _client.StopAsync();
+
+                // Dispose the client, even though .NET Generic Host should be able to do that.
+                // Be safe :)
+                _client.Dispose();
+
+                // Call a full host stop to prevent the bot being stopped but the host spinning
+                _applicationLifetime.StopApplication();
             }
         }
     }
