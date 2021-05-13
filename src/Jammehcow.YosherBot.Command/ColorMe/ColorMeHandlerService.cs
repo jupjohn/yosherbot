@@ -110,7 +110,8 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                 "Help for `colorme`: \n" +
                 "  - `$colorme` - shows this message\n" +
                 "  - `$colorme help` - shows this message\n" +
-                "  - `$colorme <hex code>` - colors your role with the hex code supplied (e.g. `#aabbcc` or `#abc`)");
+                "  - `$colorme <hex code>` - colors your role with the hex code supplied (e.g. `#aabbcc`, `#abc`, `aabbcc` or `abc`)\n\n" +
+                "You can remove your color using `$uncolorme`");
         }
     }
 }
