@@ -15,7 +15,7 @@ namespace Jammehcow.YosherBot.Common.Extensions
         /// <typeparam name="TOptions">The type of options to register (containing a key)</typeparam>
         /// <returns>The registration data for that instance</returns>
         public static IRegistrationBuilder<IPrefixedOptions, SimpleActivatorData, SingleRegistrationStyle>
-            RegisterConfiguration<TOptions>(this ContainerBuilder containerBuilder)
+            RegisterOptionSection<TOptions>(this ContainerBuilder containerBuilder)
             where TOptions : class, IPrefixedOptions, new()
         {
             return containerBuilder.Register(ctx =>
