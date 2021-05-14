@@ -175,6 +175,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                 await Context.Message.ReplyAsync("You're now colorful!");
                 return;
             }
+
             _logger.LogInformation("Successfully handled colorme command for user {User}", user.ToString());
         }
 
