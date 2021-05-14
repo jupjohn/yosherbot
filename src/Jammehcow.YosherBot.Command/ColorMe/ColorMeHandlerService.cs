@@ -60,7 +60,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             if (!HexColourHelper.TryGetColorFromHexString(hexCode, out var color))
             {
                 _logger.LogWarning("User {User} entered invalid hex code {HexCode}", Context.User.ToString(), hexCode);
-                await ReplyAsync($"Your hex code ``{hexCode}`` was invalid. Try something like #00FF00 or #abc");
+                await Context.Message.ReplyAsync($"Your hex code ``{hexCode}`` was invalid. Try something like #00FF00 or #abc");
                 return;
             }
 
@@ -80,7 +80,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             {
                 _logger.LogError(ex, "Failed to fetch roles in guild {GuildId} due to " +
                                      "an unexpected error: {ExceptionMessage}", Context.Guild.Id, ex.Message);
-                await ReplyAsync("Something went wrong when trying to find a role. Try this command again.");
+                await Context.Message.ReplyAsync("Something went wrong when trying to find a role. Try this command again.");
                 return;
             }
 
@@ -102,7 +102,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             {
                 _logger.LogError("Unable to find user with ID {UserId} in guild {GuildId}", Context.User.Id,
                     Context.Guild.Id);
-                await ReplyAsync("An error occured trying to find you in the guild user list. Try again or wait " +
+                await Context.Message.ReplyAsync("An error occured trying to find you in the guild user list. Try again or wait " +
                                  "a minute for the list to complete");
                 return;
             }
@@ -122,7 +122,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             {
                 _logger.LogError(ex, "Failed to create a role in guild {GuildId} due to " +
                                      "an unexpected error: {ExceptionMessage}", Context.Guild.Id, ex.Message);
-                await ReplyAsync("Something went wrong when trying to create your role. Try this command again.");
+                await Context.Message.ReplyAsync("Something went wrong when trying to create your role. Try this command again.");
                 return;
             }
 
@@ -140,7 +140,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                 _logger.LogError(ex, "Failed to modify a role with ID {RoleId} in guild {GuildId} due to " +
                                      "an unexpected error: {ExceptionMessage}", resolvedRole.Id, Context.Guild.Id,
                     ex.Message);
-                await ReplyAsync("Something went wrong when trying to update your role. Try this command again.");
+                await Context.Message.ReplyAsync("Something went wrong when trying to update your role. Try this command again.");
                 return;
             }
 
@@ -158,7 +158,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                     _logger.LogError(ex, "Failed to add role with ID {RoleId} to user {UserId} in guild {GuildId} due to " +
                                          "an unexpected error: {ExceptionMessage}", resolvedRole.Id, Context.User.Id,
                         Context.Guild.Id, ex.Message);
-                    await ReplyAsync("Something went wrong when trying to add your role. Try this command again.\n" +
+                    await Context.Message.ReplyAsync("Something went wrong when trying to add your role. Try this command again.\n" +
                                      $"If this issue persists then ask a mod to add you to this role: `{generatedRoleName}`");
                     return;
                 }
@@ -186,7 +186,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
 
         private async Task ReplyWithHelpMessageAsync()
         {
-            await ReplyAsync(
+            await Context.Message.ReplyAsync(
                 "Help for `colorme`: \n" +
                 "  - `$colorme` - shows this message\n" +
                 "  - `$colorme help` - shows this message\n" +
