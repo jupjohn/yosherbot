@@ -18,6 +18,7 @@ namespace Jammehcow.YosherBot.Console
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                // TODO: move to service rather than being across all services by default.
                 .ConfigureDiscordBot(() => new DiscordSocketConfig
                 {
                     LogLevel = EnvironmentsHelper.IsDevelopment() ? LogSeverity.Verbose : LogSeverity.Info,
