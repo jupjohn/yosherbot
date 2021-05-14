@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Jammehcow.YosherBot.Command.ColorMe.Helpers;
 using Jammehcow.YosherBot.Common.Configurations;
 using Microsoft.Extensions.Logging;
@@ -69,7 +71,18 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             var roleColor = new Optional<Color>(new Color(color.R, color.G, color.B));
 
             // Attempt to resolve the role and create if it doesn't exist
-            var possibleResolvedRole = Context.Guild.Roles.SingleOrDefault(r => r.Name == generatedRoleName);
+            SocketRole? possibleResolvedRole;
+            try
+            {
+                possibleResolvedRole = Context.Guild.Roles.SingleOrDefault(r => r.Name == generatedRoleName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to fetch roles in guild {GuildId} due to " +
+                                     "an unexpected error: {ExceptionMessage}", Context.Guild.Id, ex.Message);
+                await ReplyAsync("Something went wrong when trying to find a role. Try this command again.");
+                return;
+            }
 
             if (possibleResolvedRole?.Color == roleColor.Value)
             {
@@ -83,6 +96,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _logger.LogInformation("Resolved role {RoleName} in guild {GuildId}", generatedRoleName, Context.Guild.Id);
 
             // Grab the user in the context of the guild
+            // TODO: precache to prevent nulls
             var user = Context.Guild.GetUser(Context.User.Id);
             if (user == null)
             {
@@ -99,30 +113,73 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _logger.LogInformation("Top role for GuildUser {GuildUserId} is at position {RolePosition}", user.Id,
                 userTopRolePosition);
 
-            var resolvedRole = possibleResolvedRole ?? await CreateColorRoleAsync(Context.Guild, generatedRoleName);
-            await resolvedRole.ModifyAsync(props =>
+            IRole resolvedRole;
+            try
             {
-                props.Color = roleColor;
-                props.Hoist = false;
-                props.Mentionable = false;
-                props.Position = userTopRolePosition + 1;
-            });
+                resolvedRole = possibleResolvedRole ?? await CreateColorRoleAsync(Context.Guild, generatedRoleName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to create a role in guild {GuildId} due to " +
+                                     "an unexpected error: {ExceptionMessage}", Context.Guild.Id, ex.Message);
+                await ReplyAsync("Something went wrong when trying to create your role. Try this command again.");
+                return;
+            }
+
+            try {
+                await resolvedRole.ModifyAsync(props =>
+                {
+                    props.Color = roleColor;
+                    props.Hoist = false;
+                    props.Mentionable = false;
+                    props.Position = userTopRolePosition + 1;
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to modify a role with ID {RoleId} in guild {GuildId} due to " +
+                                     "an unexpected error: {ExceptionMessage}", resolvedRole.Id, Context.Guild.Id,
+                    ex.Message);
+                await ReplyAsync("Something went wrong when trying to update your role. Try this command again.");
+                return;
+            }
 
             _logger.LogInformation("Updated color and role position for role {RoleName}", generatedRoleName);
 
             if (user.Roles.All(r => r.Name != resolvedRole.Name))
             {
                 _logger.LogInformation("Adding role {RoleName} to user {UserID}", generatedRoleName, user.Id);
-                await user.AddRoleAsync(resolvedRole);
+
+                try {
+                    await user.AddRoleAsync(resolvedRole);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to add role with ID {RoleId} to user {UserId} in guild {GuildId} due to " +
+                                         "an unexpected error: {ExceptionMessage}", resolvedRole.Id, Context.User.Id,
+                        Context.Guild.Id, ex.Message);
+                    await ReplyAsync("Something went wrong when trying to add your role. Try this command again.\n" +
+                                     $"If this issue persists then ask a mod to add you to this role: `{generatedRoleName}`");
+                    return;
+                }
             }
 
-            await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
+            try {
+                await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add reaction to message with with ID {MessageId}  in guild {GuildId} due to " +
+                                     "an unexpected error: {ExceptionMessage}",
+                    Context.Message.Id, Context.User.Id, ex.Message);
+                await Context.Message.ReplyAsync("You're now colorful!");
+                return;
+            }
             _logger.LogInformation("Successfully handled colorme command for user {User}", user.ToString());
         }
 
         private static async Task<IRole> CreateColorRoleAsync(IGuild guild, string roleName)
         {
-            // TODO: handle throws
             return await guild.CreateRoleAsync(roleName, isMentionable: false);
         }
 
