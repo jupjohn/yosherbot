@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using Jammehcow.YosherBot.Command.ColorMe.Helpers;
 using Jammehcow.YosherBot.Common.Configurations;
 using Microsoft.Extensions.Logging;
@@ -40,29 +42,60 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _logger.LogInformation("Generated role name of {RoleName} for user {User}", generatedRoleName,
                 Context.User.ToString());
 
-            var resolvedRole = Context.Guild.Roles.SingleOrDefault(r => r.Name == generatedRoleName);
+            SocketRole? resolvedRole;
+            try
+            {
+                resolvedRole = Context.Guild.Roles.SingleOrDefault(r => r.Name == generatedRoleName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to get roles in guild {GuildId} due to " +
+                                     "an unexpected error: {ExceptionMessage}", Context.Guild.Id, ex.Message);
+                await Context.Message.ReplyAsync("Something went wrong when trying to update your role. Try this command again.");
+                return;
+            }
+
             if (resolvedRole == null)
             {
                 _logger.LogWarning("User {User} did not have the role {RoleName} assigned to them",
                     Context.User.ToString(), generatedRoleName);
-                await ReplyAsync("You don't have a color; I can't remove something that doesn't exist!");
+                await Context.Message.ReplyAsync("You don't have a color; I can't remove something that doesn't exist!");
                 return;
             }
 
             _logger.LogInformation("Deleting role {RoleName} for user {User}", generatedRoleName,
                 Context.User.ToString());
 
-            await resolvedRole.DeleteAsync();
+            try {
+                await resolvedRole.DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to delete a role with ID {RoleId} in guild {GuildId} due to " +
+                                     "an unexpected error: {ExceptionMessage}",
+                    resolvedRole.Id, Context.Guild.Id, ex.Message);
+                await Context.Message.ReplyAsync("Something went wrong when trying to update your role. Try this command again.");
+                return;
+            }
 
             _logger.LogInformation("Role {RoleName} deleted!", generatedRoleName);
 
-            await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
+            try {
+                await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add reaction to message with with ID {MessageId}  in guild {GuildId} due to " +
+                                     "an unexpected error: {ExceptionMessage}",
+                    Context.Message.Id, Context.User.Id, ex.Message);
+                await Context.Message.ReplyAsync("You're no longer colorful!");
+            }
         }
 
         private async Task ReplyWithHelpMessageAsync()
         {
-            await ReplyAsync("Help for `uncolorme`: \n" +
-                             "  - `$uncolorme` - removes the color from your name");
+            await Context.Message.ReplyAsync("Help for `uncolorme`: \n" +
+                                             "  - `$uncolorme` - removes the color from your name");
         }
     }
 }
