@@ -3,7 +3,7 @@ using DankHappyBot.Service.Configuration;
 namespace Jammehcow.YosherBot.Common.Configurations
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class GeneralConfiguration : IPrefixedOptions
+    public class GeneralOptions : IPrefixedOptions
     {
         public string GetPrefix() => "General";
 

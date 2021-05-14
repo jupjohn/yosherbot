@@ -11,8 +11,8 @@ namespace Jammehcow.YosherBot.Console
         {
             base.Load(builder);
 
-            builder.RegisterConfiguration<GeneralConfiguration>();
-            builder.RegisterConfiguration<ColorMeModuleConfiguration>();
+            builder.RegisterConfiguration<GeneralOptions>();
+            builder.RegisterConfiguration<ColorMeModuleOptions>();
         }
     }
 }

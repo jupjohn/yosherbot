@@ -14,7 +14,7 @@ namespace Jammehcow.YosherBot.Console
     public partial class BotStartup : BackgroundService
     {
         private readonly DiscordSocketClient _client;
-        private readonly GeneralConfiguration _configuration;
+        private readonly GeneralOptions _options;
         private readonly CommandService _commandService;
         private readonly IServiceProvider _serviceProvider;
         private readonly IHostApplicationLifetime _applicationLifetime;
@@ -22,14 +22,14 @@ namespace Jammehcow.YosherBot.Console
         private readonly IDiscordLogger _logger;
 
         public BotStartup(IDiscordLogger genericDiscordLogger, CommandService commandService,
-            IServiceProvider serviceProvider, IHostApplicationLifetime applicationLifetime, DiscordSocketClient client, GeneralConfiguration configuration)
+            IServiceProvider serviceProvider, IHostApplicationLifetime applicationLifetime, DiscordSocketClient client, GeneralOptions options)
         {
             _logger = genericDiscordLogger;
             _commandService = commandService;
             _serviceProvider = serviceProvider;
             _applicationLifetime = applicationLifetime;
             _client = client;
-            _configuration = configuration;
+            _options = options;
         }
 
         // TODO: move to handler class
@@ -41,7 +41,7 @@ namespace Jammehcow.YosherBot.Console
                 return;
 
             var argPos = 0;
-            var prefix = _configuration.Prefix;
+            var prefix = _options.Prefix;
             if (!message.HasStringPrefix(prefix, ref argPos) || message.Author.IsBot)
                 return;
 

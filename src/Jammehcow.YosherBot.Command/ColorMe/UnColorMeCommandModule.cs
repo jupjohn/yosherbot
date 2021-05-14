@@ -12,9 +12,9 @@ namespace Jammehcow.YosherBot.Command.ColorMe
     public class UnColorMeCommandModule : ModuleBase<SocketCommandContext>
     {
         private readonly ILogger<UnColorMeCommandModule> _logger;
-        private readonly ColorMeModuleConfiguration _colorMeConfig;
+        private readonly ColorMeModuleOptions _colorMeConfig;
 
-        public UnColorMeCommandModule(ILogger<UnColorMeCommandModule> logger, ColorMeModuleConfiguration colorMeConfig)
+        public UnColorMeCommandModule(ILogger<UnColorMeCommandModule> logger, ColorMeModuleOptions colorMeConfig)
         {
             // TODO: change to config subclass like "ColorMeModuleSettings"
             // This is nasty because now the whole class has access to every app setting including the
