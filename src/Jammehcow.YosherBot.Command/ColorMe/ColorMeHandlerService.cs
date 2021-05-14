@@ -48,7 +48,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             if (hexCode == "help")
             {
                 _logger.LogInformation("Sending help message for {User}", Context.User.ToString());
-                await RootHelpMessage();
+                await ReplyWithHelpMessageAsync();
                 return;
             }
 
@@ -126,7 +126,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             return await guild.CreateRoleAsync(roleName, isMentionable: false);
         }
 
-        private async Task RootHelpMessage()
+        private async Task ReplyWithHelpMessageAsync()
         {
             await ReplyAsync(
                 "Help for `colorme`: \n" +

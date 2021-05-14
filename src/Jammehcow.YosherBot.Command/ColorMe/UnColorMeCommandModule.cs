@@ -34,7 +34,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             if (subCommand == "help")
             {
                 _logger.LogInformation("Sending help message for {User}", Context.User.ToString());
-                await RootHelpMessage();
+                await ReplyWithHelpMessageAsync();
                 return;
             }
 
@@ -62,7 +62,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
         }
 
-        private async Task RootHelpMessage()
+        private async Task ReplyWithHelpMessageAsync()
         {
             await ReplyAsync("Help for `uncolorme`: \n" +
                              "  - `$uncolorme` - removes the color from your name");
