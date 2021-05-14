@@ -16,9 +16,6 @@ namespace Jammehcow.YosherBot.Command.ColorMe
 
         public UnColorMeCommandModule(ILogger<UnColorMeCommandModule> logger, ColorMeModuleOptions colorMeConfig)
         {
-            // TODO: change to config subclass like "ColorMeModuleSettings"
-            // This is nasty because now the whole class has access to every app setting including the
-            //   bot token. Stop this
             _logger = logger;
             _colorMeConfig = colorMeConfig;
         }
