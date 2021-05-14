@@ -72,7 +72,6 @@ namespace Jammehcow.YosherBot.Console
                 // Be safe :)
                 _client.Dispose();
 
-                // FIXME: this can shut down before the client has fully shutdown
                 // Call a full host stop to prevent the bot being stopped but the host spinning
                 _applicationLifetime.StopApplication();
             }
