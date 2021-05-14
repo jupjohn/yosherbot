@@ -27,7 +27,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         [Alias("uncolourme", "unsetcolor", "unsetcolour", "removecolor", "removecolour")]
         [Summary("Removes your colour")]
         // ReSharper disable once UnusedMember.Global
-        public async Task HandleColourRemove(string subCommand = null)
+        public async Task HandleColourRemove(string? subCommand = null)
         {
             _logger.LogInformation("Handling uncolorme command call for user {User}", Context.User.ToString());
 
