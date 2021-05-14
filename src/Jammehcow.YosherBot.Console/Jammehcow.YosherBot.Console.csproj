@@ -6,6 +6,7 @@
         <AssemblyName>Jammehcow.YosherBot.Console</AssemblyName>
         <RootNamespace>Jammehcow.YosherBot.Console</RootNamespace>
         <Nullable>warnings</Nullable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
