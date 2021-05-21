@@ -20,6 +20,7 @@ namespace Jammehcow.YosherBot.Command.Administration
         }
 
         [Command("disconnect")]
+        [Alias("dc", "quit")]
         [Summary("Disconnects and shuts down the bot")]
         public async Task Disconnect()
         {
