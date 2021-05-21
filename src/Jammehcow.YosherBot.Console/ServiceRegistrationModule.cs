@@ -13,6 +13,7 @@ namespace Jammehcow.YosherBot.Console
 
             builder.RegisterOptionSection<GeneralOptions>();
             builder.RegisterOptionSection<ColorMeModuleOptions>();
+            builder.RegisterOptionSection<AdministrationOptions>();
         }
     }
 }
