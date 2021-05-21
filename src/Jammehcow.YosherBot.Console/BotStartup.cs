@@ -8,6 +8,7 @@ using Jammehcow.YosherBot.Common.Configurations;
 using Jammehcow.YosherBot.Console.Helpers.Logger;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Console
 {
@@ -19,12 +20,15 @@ namespace Jammehcow.YosherBot.Console
         private readonly IServiceProvider _serviceProvider;
         private readonly IHostApplicationLifetime _applicationLifetime;
 
-        private readonly IDiscordLogger _logger;
+        private readonly IDiscordLogger _discordLogger;
+        private readonly ILogger<BotStartup> _logger;
 
-        public BotStartup(IDiscordLogger genericDiscordLogger, CommandService commandService,
-            IServiceProvider serviceProvider, IHostApplicationLifetime applicationLifetime, DiscordSocketClient client, GeneralOptions options)
+        public BotStartup(IDiscordLogger genericDiscordDiscordLogger, ILogger<BotStartup> logger,
+            CommandService commandService, IServiceProvider serviceProvider,
+            IHostApplicationLifetime applicationLifetime, DiscordSocketClient client, GeneralOptions options)
         {
-            _logger = genericDiscordLogger;
+            _discordLogger = genericDiscordDiscordLogger;
+            _logger = logger;
             _commandService = commandService;
             _serviceProvider = serviceProvider;
             _applicationLifetime = applicationLifetime;

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Jammehcow.YosherBot.Command.Administration;
 using Jammehcow.YosherBot.Console.Extensions;
 using Jammehcow.YosherBot.Console.Helpers;
+using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Console
 {
@@ -15,7 +16,7 @@ namespace Jammehcow.YosherBot.Console
             await _commandService.AddModulesAsync(Assembly.GetAssembly(typeof(AdministrationService)),
                 _serviceProvider);
 
-            _client.Log += _logger.HandleLogEventAsync;
+            _client.Log += _discordLogger.HandleLogEventAsync;
             _client.MessageReceived += HandleOnMessageReceivedAsync;
 
             var cancellationSource = CancellationTokenSource.CreateLinkedTokenSource(
