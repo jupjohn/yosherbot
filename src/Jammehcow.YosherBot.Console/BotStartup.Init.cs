@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Jammehcow.YosherBot.Command.Administration;
 using Jammehcow.YosherBot.Console.Extensions;
 using Jammehcow.YosherBot.Console.Helpers;
 
@@ -11,7 +12,7 @@ namespace Jammehcow.YosherBot.Console
     {
         private async Task<CancellationTokenSource> InitialiseClientAsync(CancellationToken? externalCancellationToken)
         {
-            await _commandService.AddModulesAsync(Assembly.GetAssembly(typeof(Command.ColorMe.ColorMeHandlerService)),
+            await _commandService.AddModulesAsync(Assembly.GetAssembly(typeof(AdministrationCommandModule)),
                 _serviceProvider);
 
             _client.Log += _logger.HandleLogEventAsync;
