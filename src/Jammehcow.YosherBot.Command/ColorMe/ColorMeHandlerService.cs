@@ -21,17 +21,6 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _colorMeConfig = colorMeConfig;
         }
 
-        // TODO: move to own module, don't commit me with a snowflake literal
-        [Command("quit")]
-        public async Task Quit()
-        {
-            if (Context.User.Id != 187814169813188608)
-                return;
-
-            await Context.Message.AddReactionAsync(new Emoji("\uD83D\uDC4D"));
-            await Context.Client.StopAsync();
-        }
-
         [Command("colorme")]
         [Alias("colourme", "setcolor", "setcolour")]
         [Summary("Sets your colour using a hex code")]
