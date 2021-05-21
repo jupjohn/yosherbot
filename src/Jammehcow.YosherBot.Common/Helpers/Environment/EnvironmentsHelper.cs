@@ -1,7 +1,7 @@
 ﻿using System;
 using MayBee;
 
-namespace Jammehcow.YosherBot.Console.Helpers
+namespace Jammehcow.YosherBot.Common.Helpers.Environment
 {
     public static class EnvironmentsHelper
     {
@@ -14,8 +14,8 @@ namespace Jammehcow.YosherBot.Console.Helpers
             public const string DiscordToken = "DISCORD_TOKEN";
         }
 
-        public static bool IsDevelopment() => Environment.GetEnvironmentVariable(Keys.Environment) == null;
-        public static bool IsProduction() => Environment.GetEnvironmentVariable(Keys.Environment)
+        public static bool IsDevelopment() => System.Environment.GetEnvironmentVariable(Keys.Environment) == null;
+        public static bool IsProduction() => System.Environment.GetEnvironmentVariable(Keys.Environment)
             ?.Equals("production", StringComparison.InvariantCultureIgnoreCase) ?? false;
 
         /// <summary>
@@ -23,6 +23,6 @@ namespace Jammehcow.YosherBot.Console.Helpers
         /// </summary>
         /// <returns>A monad that could contain the token (if set)</returns>
         public static Maybe<string> GetDiscordBotToken() =>
-            Maybe.FromNullable(Environment.GetEnvironmentVariable(Keys.DiscordToken));
+            Maybe.FromNullable(System.Environment.GetEnvironmentVariable(Keys.DiscordToken))!;
     }
 }

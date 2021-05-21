@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Discord;
+using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Console.Helpers.Logger
