@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -18,13 +19,11 @@ namespace Jammehcow.YosherBot.Command.Administration
             _administrationOptions = administrationOptions;
         }
 
-        // TODO: move to own module, don't commit me with a snowflake literal
         [Command("disconnect")]
         [Summary("Disconnects and shuts down the bot")]
         public async Task Disconnect()
         {
-            // TODO: replace with config reference
-            if (Context.User.Id != 187814169813188608)
+            if (!_administrationOptions.PermittedUserIds.Contains<ulong>(Context.User.Id))
             {
                 _logger.LogInformation(
                     "User {UserId} tried to use command 'quit' but did not have administrative rights to do so",
