@@ -12,7 +12,7 @@ namespace Jammehcow.YosherBot.Console
     {
         private async Task<CancellationTokenSource> InitialiseClientAsync(CancellationToken? externalCancellationToken)
         {
-            await _commandService.AddModulesAsync(Assembly.GetAssembly(typeof(AdministrationCommandModule)),
+            await _commandService.AddModulesAsync(Assembly.GetAssembly(typeof(AdministrationService)),
                 _serviceProvider);
 
             _client.Log += _logger.HandleLogEventAsync;

@@ -7,12 +7,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Command.Administration
 {
-    public class AdministrationCommandModule : ModuleBase<SocketCommandContext>
+    public class AdministrationService : ModuleBase<SocketCommandContext>
     {
-        private readonly ILogger<AdministrationCommandModule> _logger;
+        private readonly ILogger<AdministrationService> _logger;
         private readonly AdministrationOptions _administrationOptions;
 
-        public AdministrationCommandModule(ILogger<AdministrationCommandModule> logger,
+        public AdministrationService(ILogger<AdministrationService> logger,
             AdministrationOptions administrationOptions)
         {
             _logger = logger;
