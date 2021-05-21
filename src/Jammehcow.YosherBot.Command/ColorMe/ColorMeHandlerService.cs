@@ -14,24 +14,26 @@ namespace Jammehcow.YosherBot.Command.ColorMe
     {
         private readonly ILogger<ColorMeHandlerService> _logger;
         private readonly ColorMeModuleOptions _colorMeConfig;
+        private readonly AdministrationOptions _administrationOptions;
 
-        public ColorMeHandlerService(ILogger<ColorMeHandlerService> logger, ColorMeModuleOptions colorMeConfig)
+        public ColorMeHandlerService(ILogger<ColorMeHandlerService> logger, ColorMeModuleOptions colorMeConfig,
+            AdministrationOptions administrationOptions)
         {
             _logger = logger;
             _colorMeConfig = colorMeConfig;
+            _administrationOptions = administrationOptions;
         }
 
         [Command("colorme")]
         [Alias("colourme", "setcolor", "setcolour")]
         [Summary("Sets your colour using a hex code")]
         // ReSharper disable once UnusedMember.Global
-        public async Task HandleColourSet([Summary("A full or shorthand hex code")] string hexCode = "help")
+        public async Task HandleColourSet([Summary("A full or shorthand hex code")]
+            string hexCode = "help", string arg2 = "")
         {
             // TODO: add permissions check, feature independent
             // TODO: help commands, use subclasses?
             _logger.LogInformation("Handling colorme command call for user {User}", Context.User.ToString());
-
-            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(Context.User.Id, _colorMeConfig.RolePrefix);
 
             if (hexCode == "help")
             {
@@ -39,6 +41,32 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                 await ReplyWithHelpMessageAsync();
                 return;
             }
+
+            var targetUserId = Context.User.Id;
+            if (!string.IsNullOrWhiteSpace(arg2))
+            {
+                try
+                {
+                    var memberId = Convert.ToUInt64(arg2);
+                    var targetUser = Context.Guild.GetUser(memberId);
+                    targetUserId = targetUser.Id;
+                }
+                catch (Exception ex)
+                {
+                    // TODO: clean up wording because other exceptions could throw
+                    await ReplyAsync($"Unable to convert {arg2} to user ID");
+                    _logger.LogWarning(ex, "Failed to convert an ID {Id} to ulong", arg2);
+                    return;
+                }
+
+                if (!_administrationOptions.PermittedUserIds.Contains(Context.User.Id))
+                {
+                    await Context.Message.ReplyAsync("You don't have permission to do that!");
+                    return;
+                }
+            }
+
+            var generatedRoleName = RoleNameHelper.GetRoleNameFromUserId(targetUserId, _colorMeConfig.RolePrefix);
 
             _logger.LogInformation("Generated role name of {RoleName} for user {User}", generatedRoleName,
                 Context.User.ToString());
@@ -72,7 +100,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
 
             if (possibleResolvedRole?.Color == roleColor.Value)
             {
-                _logger.LogInformation("User {GuildUserId} already has the requested color {ColorHex}", Context.User.Id,
+                _logger.LogInformation("User {GuildUserId} already has the requested color {ColorHex}", targetUserId,
                     hexCode);
 
                 await Context.Message.ReplyAsync("You already have that color!");
@@ -83,10 +111,10 @@ namespace Jammehcow.YosherBot.Command.ColorMe
 
             // Grab the user in the context of the guild
             // TODO: precache to prevent nulls
-            var user = Context.Guild.GetUser(Context.User.Id);
+            var user = Context.Guild.GetUser(targetUserId);
             if (user == null)
             {
-                _logger.LogError("Unable to find user with ID {UserId} in guild {GuildId}", Context.User.Id,
+                _logger.LogError("Unable to find user with ID {UserId} in guild {GuildId}", targetUserId,
                     Context.Guild.Id);
                 await Context.Message.ReplyAsync("An error occured trying to find you in the guild user list. Try again or wait " +
                                  "a minute for the list to complete");
@@ -143,7 +171,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Failed to add role with ID {RoleId} to user {UserId} in guild {GuildId} due to " +
-                                         "an unexpected error: {ExceptionMessage}", resolvedRole.Id, Context.User.Id,
+                                         "an unexpected error: {ExceptionMessage}", resolvedRole.Id, targetUserId,
                         Context.Guild.Id, ex.Message);
                     await Context.Message.ReplyAsync("Something went wrong when trying to add your role. Try this command again.\n" +
                                      $"If this issue persists then ask a mod to add you to this role: `{generatedRoleName}`");
@@ -158,7 +186,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             {
                 _logger.LogError(ex, "Failed to add reaction to message with with ID {MessageId}  in guild {GuildId} due to " +
                                      "an unexpected error: {ExceptionMessage}",
-                    Context.Message.Id, Context.User.Id, ex.Message);
+                    Context.Message.Id, targetUserId, ex.Message);
                 await Context.Message.ReplyAsync("You're now colorful!");
                 return;
             }
