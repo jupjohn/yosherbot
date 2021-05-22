@@ -5,6 +5,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Common.Configurations;
+using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Jammehcow.YosherBot.Console.Helpers.Logger;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -47,6 +48,9 @@ namespace Jammehcow.YosherBot.Console
             var argPos = 0;
             var prefix = _options.Prefix;
             if (!message.HasStringPrefix(prefix, ref argPos) || message.Author.IsBot)
+                return;
+
+            if (EnvironmentsHelper.IsProduction() && socketMessage.Channel.Name != "commands-use")
                 return;
 
             var context = new SocketCommandContext(_client, message);

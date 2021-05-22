@@ -6,7 +6,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Command.ColorMe.Helpers;
 using Jammehcow.YosherBot.Common.Configurations;
-using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Command.ColorMe
@@ -32,11 +31,6 @@ namespace Jammehcow.YosherBot.Command.ColorMe
         public async Task HandleColourSet([Summary("A full or shorthand hex code")]
             string hexCode = "help", string arg2 = "")
         {
-            if (EnvironmentsHelper.IsProduction() && Context.Channel.Name != "commands-use")
-            {
-                return;
-            }
-
             // TODO: add permissions check, feature independent
             // TODO: help commands, use subclasses?
             _logger.LogInformation("Handling colorme command call for user {User}", Context.User.ToString());
