@@ -11,12 +11,12 @@ using Microsoft.Extensions.Logging;
 namespace Jammehcow.YosherBot.Command.ColorMe
 {
     // ReSharper disable once UnusedType.Global
-    public class UnColorMeCommandModule : ModuleBase<SocketCommandContext>
+    public class UnColorMeHandlerService : ModuleBase<SocketCommandContext>
     {
-        private readonly ILogger<UnColorMeCommandModule> _logger;
+        private readonly ILogger<UnColorMeHandlerService> _logger;
         private readonly ColorMeModuleOptions _colorMeConfig;
 
-        public UnColorMeCommandModule(ILogger<UnColorMeCommandModule> logger, ColorMeModuleOptions colorMeConfig)
+        public UnColorMeHandlerService(ILogger<UnColorMeHandlerService> logger, ColorMeModuleOptions colorMeConfig)
         {
             _logger = logger;
             _colorMeConfig = colorMeConfig;
