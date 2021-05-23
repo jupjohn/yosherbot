@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Autofac" Version="6.1.0" />
+      <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+      <PackageReference Include="Discord.Net" Version="2.3.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Jammehcow.YosherBot.Common\Jammehcow.YosherBot.Common.csproj" />
+    </ItemGroup>
+
+</Project>
