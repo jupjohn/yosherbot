@@ -2,9 +2,8 @@
 
 ## Basic crap
 
- - Replace raw IConfiguration references with options
  - Refactor message event handler into own service (scoped)
- - Dockerize the solution so it can be easily deployed on a node
+ - Dockerize the solution so it can be easily deployed on a node (still needs work but usable)
 
 
 ## Color commands
@@ -18,7 +17,6 @@
 
 ## Feature suggestions:
 
- - Color me
  - Twitch stream notifs
  - UD
  - Hide/show text channels based on connected voice channel
