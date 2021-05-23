@@ -1,5 +1,6 @@
 ﻿using Autofac;
-using Discord.Commands;
+using Jammehcow.YosherBot.Common.Configurations;
+using Jammehcow.YosherBot.Common.Extensions;
 
 namespace Jammehcow.YosherBot.Console
 {
@@ -10,8 +11,9 @@ namespace Jammehcow.YosherBot.Console
         {
             base.Load(builder);
 
-            builder.RegisterType<CommandService>()
-                .SingleInstance();
+            builder.RegisterOptionSection<GeneralOptions>();
+            builder.RegisterOptionSection<ColorMeModuleOptions>();
+            builder.RegisterOptionSection<AdministrationOptions>();
         }
     }
 }

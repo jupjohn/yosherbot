@@ -1,37 +1,43 @@
 ﻿using System;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using Jammehcow.YosherBot.Command.Administration;
+using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Jammehcow.YosherBot.Console.Extensions;
 using Jammehcow.YosherBot.Console.Helpers;
+using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Console
 {
     public partial class BotStartup
     {
-        private void InitialiseClient()
+        private async Task<CancellationTokenSource> InitialiseClientAsync(CancellationToken? externalCancellationToken)
         {
-            var sockConfig = new DiscordSocketConfig
-            {
-                LogLevel = LogSeverity.Info,
-                MessageCacheSize = 40,
-                HandlerTimeout = 2000
-            };
-            _client = new DiscordSocketClient(sockConfig);
+            await _commandService.AddModulesAsync(Assembly.GetAssembly(typeof(AdministrationService)),
+                _serviceProvider);
 
-            _client.Log += _logger.HandleLogEventAsync;
+            _client.Log += _discordLogger.HandleLogEventAsync;
             _client.MessageReceived += HandleOnMessageReceivedAsync;
-        }
 
-        private void InitialiseCommands()
-        {
-            _commandService = new CommandService(new CommandServiceConfig
+            var cancellationSource = CancellationTokenSource.CreateLinkedTokenSource(
+                externalCancellationToken ?? CancellationToken.None);
+
+            // ReSharper disable once MethodSupportsCancellation
+            _client.Disconnected += exception =>
             {
-                LogLevel = LogSeverity.Info,
-                DefaultRunMode = RunMode.Async,
-                IgnoreExtraArgs = true,
-                CaseSensitiveCommands = false
-            });
+                // We just want to handle the managed disconnects
+                if (exception is not TaskCanceledException)
+                    return Task.CompletedTask;
+
+                // TODO: handle and log exceptions. This is only meant for managed quit events
+                if (!cancellationSource.IsCancellationRequested)
+                    cancellationSource.Cancel();
+
+                return Task.CompletedTask;
+            };
+
+            return cancellationSource;
         }
 
         internal static string GetBotToken()

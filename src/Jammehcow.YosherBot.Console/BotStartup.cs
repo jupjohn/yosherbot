@@ -1,68 +1,88 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Jammehcow.YosherBot.Common.Configurations;
+using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Jammehcow.YosherBot.Console.Helpers.Logger;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Console
 {
-    public partial class BotStartup : IHostedService
+    public partial class BotStartup : BackgroundService
     {
-        private DiscordSocketClient _client;
+        private readonly DiscordSocketClient _client;
+        private readonly GeneralOptions _options;
+        private readonly CommandService _commandService;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IHostApplicationLifetime _applicationLifetime;
 
-        private CommandService _commandService;
+        private readonly IDiscordLogger _discordLogger;
+        private readonly ILogger<BotStartup> _logger;
 
-        private readonly IDiscordLogger _logger;
-
-        private BotStartup(CommandService commandService)
+        public BotStartup(IDiscordLogger genericDiscordDiscordLogger, ILogger<BotStartup> logger,
+            CommandService commandService, IServiceProvider serviceProvider,
+            IHostApplicationLifetime applicationLifetime, DiscordSocketClient client, GeneralOptions options)
         {
-            // TODO: inject
-            _logger = new GenericDiscordLogger();
+            _discordLogger = genericDiscordDiscordLogger;
+            _logger = logger;
             _commandService = commandService;
-
-            InitialiseClient();
-            InitialiseCommands();
+            _serviceProvider = serviceProvider;
+            _applicationLifetime = applicationLifetime;
+            _client = client;
+            _options = options;
         }
 
         // TODO: move to handler class
         private async Task HandleOnMessageReceivedAsync(SocketMessage socketMessage)
         {
-            // Bail out if it's a System Message.
-            if (!(socketMessage is SocketUserMessage msg)) return;
+            // ReSharper disable once UseNegatedPatternMatching
+            var message = socketMessage as SocketUserMessage;
+            if (message == null)
+                return;
 
-            // We don't want the bot to respond to itself or other bots.
-            if (msg.Author.Id == _client.CurrentUser.Id || msg.Author.IsBot) return;
+            var argPos = 0;
+            var prefix = _options.Prefix;
+            if (!message.HasStringPrefix(prefix, ref argPos) || message.Author.IsBot)
+                return;
 
-            if (string.Equals(msg.Content, "$ping"))
-                await msg.Channel.SendMessageAsync("Pong!");
+            if (EnvironmentsHelper.IsProduction() && socketMessage.Channel.Name != "commands-use")
+                return;
 
-            // if (string.Equals(msg.Content, "$stop"))
-            //     await this();
+            var context = new SocketCommandContext(_client, message);
 
-            // Create a number to track where the prefix ends and the command begins
-            // var pos = 0;
-            // if (msg.HasCharPrefix('$', ref pos))
-            // {
-            //     var context = new SocketCommandContext(_client, msg);
-            //     var result = await _commandService.ExecuteAsync(context, pos, _serviceProvider);
-            //
-            //     // TODO: handle result
-            // }
+            await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+
+            using var cancellationSource = await InitialiseClientAsync(stoppingToken);
+
             await _client.LoginAsync(TokenType.Bot, GetBotToken());
             await _client.StartAsync();
 
-            await Task.Delay(-1, cancellationToken);
-        }
+            try
+            {
+                await Task.Delay(Timeout.Infinite, cancellationSource.Token);
+            }
+            finally
+            {
+                // There's a chance this has already been stopped internally so don't re-call it (might be noop anyways)
+                if (_client.ConnectionState == ConnectionState.Connected)
+                    await _client.StopAsync();
 
-        public async Task StopAsync(CancellationToken _)
-        {
-            await _client.StopAsync();
+                // Dispose the client, even though .NET Generic Host should be able to do that.
+                // Be safe :)
+                _client.Dispose();
+
+                // Call a full host stop to prevent the bot being stopped but the host spinning
+                _applicationLifetime.StopApplication();
+            }
         }
     }
 }

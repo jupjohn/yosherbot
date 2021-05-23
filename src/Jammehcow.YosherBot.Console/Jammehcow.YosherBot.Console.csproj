@@ -6,14 +6,27 @@
         <AssemblyName>Jammehcow.YosherBot.Console</AssemblyName>
         <RootNamespace>Jammehcow.YosherBot.Console</RootNamespace>
         <Nullable>warnings</Nullable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Autofac" Version="6.1.0" />
       <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-      <PackageReference Include="Discord.Net" Version="2.2.0" />
+      <PackageReference Include="Discord.Net" Version="2.3.1" />
       <PackageReference Include="MayBee" Version="4.0.1" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Jammehcow.YosherBot.Command\Jammehcow.YosherBot.Command.csproj" />
+      <ProjectReference Include="..\Jammehcow.YosherBot.Common\Jammehcow.YosherBot.Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="appsettings.json" />
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>
