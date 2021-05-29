@@ -1,5 +1,3 @@
-using DankHappyBot.Service.Configuration;
-
 namespace Jammehcow.YosherBot.Common.Configurations
 {
     // ReSharper disable once ClassNeverInstantiated.Global

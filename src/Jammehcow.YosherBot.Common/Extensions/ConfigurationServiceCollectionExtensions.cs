@@ -1,7 +1,7 @@
 using System;
 using Autofac;
 using Autofac.Builder;
-using DankHappyBot.Service.Configuration;
+using Jammehcow.YosherBot.Common.Configurations;
 using Microsoft.Extensions.Configuration;
 
 namespace Jammehcow.YosherBot.Common.Extensions

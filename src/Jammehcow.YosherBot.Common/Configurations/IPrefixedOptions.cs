@@ -1,4 +1,4 @@
-namespace DankHappyBot.Service.Configuration
+namespace Jammehcow.YosherBot.Common.Configurations
 {
     public interface IPrefixedOptions
     {

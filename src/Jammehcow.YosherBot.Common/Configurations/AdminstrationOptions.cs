@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using DankHappyBot.Service.Configuration;
 
 namespace Jammehcow.YosherBot.Common.Configurations
 {
