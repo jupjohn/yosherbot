@@ -54,6 +54,8 @@ namespace Jammehcow.YosherBot.Console
             if (EnvironmentsHelper.IsProduction() && socketMessage.Channel.Name != "commands-use")
                 return;
 
+            _logger.LogInformation("Attempting to handle command for message {Message}", message.Content);
+
             var context = new SocketCommandContext(_client, message);
             await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
         }
@@ -69,6 +71,7 @@ namespace Jammehcow.YosherBot.Console
             try
             {
                 await Task.Delay(Timeout.Infinite, cancellationSource.Token);
+                _logger.LogInformation("Stopping requested");
             }
             finally
             {
