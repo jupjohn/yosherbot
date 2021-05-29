@@ -6,7 +6,6 @@ using Discord;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Jammehcow.YosherBot.Console.Extensions;
-using Jammehcow.YosherBot.Console.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
