@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jammehcow.YosherBot.Integra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jammehcow.YosherBot.Common", "src\Jammehcow.YosherBot.Common\Jammehcow.YosherBot.Common.csproj", "{420795E5-6B99-49B0-B3EC-73CD766A0377}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jammehcow.YosherBot.EfCore", "src\Jammehcow.YosherBot.EfCore\Jammehcow.YosherBot.EfCore.csproj", "{6B56B9E6-A0DD-40DA-B270-631D5EF59809}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{420795E5-6B99-49B0-B3EC-73CD766A0377}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{420795E5-6B99-49B0-B3EC-73CD766A0377}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{420795E5-6B99-49B0-B3EC-73CD766A0377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B56B9E6-A0DD-40DA-B270-631D5EF59809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B56B9E6-A0DD-40DA-B270-631D5EF59809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B56B9E6-A0DD-40DA-B270-631D5EF59809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B56B9E6-A0DD-40DA-B270-631D5EF59809}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B18DA4F9-F794-4735-B451-AB0325FC3DE8} = {0F25B39F-7085-4B1B-BDA1-A39EE7F24CB1}
@@ -50,5 +56,6 @@ Global
 		{75077D04-9C41-4753-87CF-3C22E4393196} = {C76D7A69-D4C4-43A7-BBD7-097766AC8E44}
 		{F1094673-9362-49EA-87E3-9A28C9A8A4A8} = {C76D7A69-D4C4-43A7-BBD7-097766AC8E44}
 		{420795E5-6B99-49B0-B3EC-73CD766A0377} = {C76D7A69-D4C4-43A7-BBD7-097766AC8E44}
+		{6B56B9E6-A0DD-40DA-B270-631D5EF59809} = {C76D7A69-D4C4-43A7-BBD7-097766AC8E44}
 	EndGlobalSection
 EndGlobal
