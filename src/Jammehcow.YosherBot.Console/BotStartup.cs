@@ -50,6 +50,7 @@ namespace Jammehcow.YosherBot.Console
             if (!message.HasStringPrefix(prefix, ref argPos) || message.Author.IsBot)
                 return;
 
+            // TODO: move this to DB lookup (can cache at startup)
             if (EnvironmentsHelper.IsProduction() && socketMessage.Channel.Name != "commands-use")
                 return;
 
