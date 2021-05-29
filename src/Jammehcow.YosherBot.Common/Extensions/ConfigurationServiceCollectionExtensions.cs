@@ -26,7 +26,7 @@ namespace Jammehcow.YosherBot.Common.Extensions
                     throw new ArgumentException("No IConfiguration was registered in the ContainerBuilder");
 
                 TOptions options = new();
-                config.GetSection(options.GetPrefix()).Bind(options);
+                config.GetSection(options.ConfigSectionPrefix).Bind(options);
 
                 return options;
             });
