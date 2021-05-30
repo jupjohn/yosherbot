@@ -9,6 +9,7 @@ namespace Jammehcow.YosherBot.EfCore.Repositories
     {
         private readonly ILogger<YosherBotRepository> _logger;
 
+        // TODO: caching
         public YosherBotRepository(ILogger<YosherBotRepository> logger, YosherBotContext dbContext) : base(dbContext)
         {
             _logger = logger;
