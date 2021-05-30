@@ -15,7 +15,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// <summary>
         /// The snowflake ID of the guild
         /// </summary>
-        public ulong GuildId { get; internal set; }
+        public ulong GuildSnowflake { get; internal set; }
 
         /// <summary>
         /// The date this guild was added/joined (UTC)
@@ -27,9 +27,9 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// </summary>
         public DateTime? DateRemoved { get; internal set; }
 
-        internal Guild(ulong guildId, DateTime dateAdded, DateTime? dateRemoved = null)
+        internal Guild(ulong guildSnowflake, DateTime dateAdded, DateTime? dateRemoved = null)
         {
-            GuildId = guildId;
+            GuildSnowflake = guildSnowflake;
             DateAdded = dateAdded;
             DateRemoved = dateRemoved;
         }

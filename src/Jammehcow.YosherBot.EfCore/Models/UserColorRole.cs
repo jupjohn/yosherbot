@@ -11,7 +11,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// <summary>
         /// The Discord ID of the user this role is applied to
         /// </summary>
-        public long UserSnowflake { get; set; }
+        public ulong UserSnowflake { get; set; }
 
         /// <summary>
         /// The display name of the role
@@ -22,7 +22,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// <summary>
         /// The Discord ID of the Guild role
         /// </summary>
-        public long RoleSnowflake { get; set; }
+        public ulong RoleSnowflake { get; set; }
 
         /// <summary>
         /// The ID of the guild
