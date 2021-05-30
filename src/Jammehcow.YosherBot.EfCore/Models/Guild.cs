@@ -39,7 +39,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// </summary>
         /// <param name="sourceGuild">The Discord Guild this entity represents</param>
         /// <param name="dateJoined">The date this Guild was joined</param>
-        /// <returns></returns>
+        /// <returns>A Status containing either the Guild or a set of errors that prevented entity creation</returns>
         public IStatusGeneric CreateGuildFromDiscordBuild(IGuild sourceGuild, DateTime dateJoined)
         {
             // Will leave as StatusGeneric for now as Guild will end up with some properties
