@@ -61,7 +61,6 @@ namespace Jammehcow.YosherBot.Console
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
             using var cancellationSource = await InitialiseClientAsync(stoppingToken);
 
             await _client.LoginAsync(TokenType.Bot, GetBotToken());
