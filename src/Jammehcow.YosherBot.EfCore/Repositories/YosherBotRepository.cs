@@ -18,11 +18,9 @@ namespace Jammehcow.YosherBot.EfCore.Repositories
         /// </summary>
         /// <param name="snowflakeId">Discord's snowflake ID of the Guild</param>
         /// <returns>A Maybe either containing the Guild or none if not found</returns>
-        public Maybe<Guild> GetGuildBySnowflakeId(long snowflakeId)
+        public Maybe<Guild> GetGuildBySnowflakeId(ulong snowflakeId)
         {
-            return snowflakeId < 0
-                ? Maybe.Empty<Guild>()
-                : Context.Guilds.SingleAsMaybe(guild => guild.Id == snowflakeId);
+            return Context.Guilds.SingleAsMaybe(guild => guild.GuildSnowflake == snowflakeId);
         }
     }
 }
