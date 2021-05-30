@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Jammehcow.YosherBot.Common.Models;
 using Jammehcow.YosherBot.EfCore.Models.Base;
 using StatusGeneric;
 
@@ -68,6 +69,22 @@ namespace Jammehcow.YosherBot.EfCore.Models
                 return statusHandler.AddError("The new display name must contain characters");
 
             RoleDisplayName = newDisplayName;
+            return statusHandler;
+        }
+
+        /// <summary>
+        /// Sets the color of the role
+        /// </summary>
+        /// <param name="color">The color to set the role to</param>
+        /// <returns>A status containing errors (if any)</returns>
+        public IStatusGeneric SetRoleColor(ColorModel color)
+        {
+            var statusHandler = new StatusGenericHandler();
+
+            if (color.HexCode == ColorHexCode)
+                return statusHandler.AddError($"Color was already set to {ColorHexCode}");
+
+            ColorHexCode = color.HexCode;
             return statusHandler;
         }
     }
