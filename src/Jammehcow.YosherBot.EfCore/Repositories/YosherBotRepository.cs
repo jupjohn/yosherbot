@@ -20,7 +20,9 @@ namespace Jammehcow.YosherBot.EfCore.Repositories
         /// <returns>A Maybe either containing the Guild or none if not found</returns>
         public Maybe<Guild> GetGuildBySnowflakeId(long snowflakeId)
         {
-            return Context.Guilds.SingleAsMaybe(guild => guild.Id == snowflakeId);
+            return snowflakeId < 0
+                ? Maybe.Empty<Guild>()
+                : Context.Guilds.SingleAsMaybe(guild => guild.Id == snowflakeId);
         }
     }
 }
