@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Jammehcow.YosherBot.Common\Jammehcow.YosherBot.Common.csproj" />
+      <ProjectReference Include="..\Jammehcow.YosherBot.EfCore\Jammehcow.YosherBot.EfCore.csproj" />
     </ItemGroup>
 
 </Project>
