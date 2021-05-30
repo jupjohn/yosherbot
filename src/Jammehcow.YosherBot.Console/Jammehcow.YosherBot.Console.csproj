@@ -12,7 +12,7 @@
     <ItemGroup>
       <PackageReference Include="Autofac" Version="6.1.0" />
       <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-      <PackageReference Include="Discord.Net" Version="2.3.1" />
+      <PackageReference Include="Discord.Net" Version="2.4.0" />
       <PackageReference Include="MayBee" Version="4.0.1" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     </ItemGroup>
