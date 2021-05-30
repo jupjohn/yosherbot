@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Command.ColorMe
 {
+    // ReSharper disable once UnusedType.Global
     public class ColorMeHandlerService : ModuleBase<SocketCommandContext>
     {
         private readonly ILogger<ColorMeHandlerService> _logger;
