@@ -8,6 +8,6 @@ namespace Jammehcow.YosherBot.EfCore.Models.Base
     public interface IEntity
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; init; }
     }
 }
