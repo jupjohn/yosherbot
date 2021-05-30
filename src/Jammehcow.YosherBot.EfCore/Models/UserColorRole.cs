@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Jammehcow.YosherBot.EfCore.Models.Base;
+using StatusGeneric;
 
 namespace Jammehcow.YosherBot.EfCore.Models
 {
@@ -52,5 +53,21 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// The date this role was applied
         /// </summary>
         public DateTime DateRemoved { get; internal set; }
+
+        /// <summary>
+        /// Set the display name of the color role
+        /// </summary>
+        /// <param name="newDisplayName">The display name to replace the current name</param>
+        /// <returns>A status containing errors (if any)</returns>
+        public IStatusGeneric SetDisplayName(string newDisplayName)
+        {
+            var statusHandler = new StatusGenericHandler();
+
+            if (string.IsNullOrWhiteSpace(newDisplayName))
+                return statusHandler.AddError("The new display name must contain characters");
+
+            RoleDisplayName = newDisplayName;
+            return statusHandler;
+        }
     }
 }
