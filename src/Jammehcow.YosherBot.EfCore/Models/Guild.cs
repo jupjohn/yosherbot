@@ -20,6 +20,6 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// <summary>
         /// The date this guild was left (UTC)
         /// </summary>
-        public DateTime DateRemoved { get; set; }
+        public DateTime? DateRemoved { get; set; }
     }
 }
