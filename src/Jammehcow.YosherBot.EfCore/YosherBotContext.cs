@@ -20,6 +20,10 @@ namespace Jammehcow.YosherBot.EfCore
 
         #endregion
 
+        public YosherBotContext(DbContextOptions options) : base(options)
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
