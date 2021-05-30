@@ -10,16 +10,16 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// <summary>
         /// The snowflake ID of the guild
         /// </summary>
-        public long GuildId { get; set; }
+        public long GuildId { get; internal set; }
 
         /// <summary>
         /// The date this guild was added/joined (UTC)
         /// </summary>
-        public DateTime DateAdded { get; set; }
+        public DateTime DateAdded { get; internal set; }
 
         /// <summary>
         /// The date this guild was left (UTC)
         /// </summary>
-        public DateTime? DateRemoved { get; set; }
+        public DateTime? DateRemoved { get; internal set; }
     }
 }
