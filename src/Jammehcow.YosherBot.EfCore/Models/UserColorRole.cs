@@ -41,7 +41,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// The status of this color role
         /// </summary>
         [Required]
-        public int ColorRoleStatusId { get; internal set; }
+        public int RoleStatusId { get; internal set; }
         public virtual ColorRoleStatus RoleStatus { get; internal set; } = null!;
 
         /// <summary>

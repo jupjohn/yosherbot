@@ -3,15 +3,17 @@ using System;
 using Jammehcow.YosherBot.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Jammehcow.YosherBot.EfCore.Migrations
 {
     [DbContext(typeof(YosherBotContext))]
-    partial class YosherBotContextModelSnapshot : ModelSnapshot
+    [Migration("20210530084536_UserColorRole_RenameStatusIdColumn")]
+    partial class UserColorRole_RenameStatusIdColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
