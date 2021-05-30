@@ -14,7 +14,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe.Helpers
         /// <param name="hexValue">The hex string to convert (may start with a #)</param>
         /// <param name="model">The model to pass out to if conversion was successful</param>
         /// <returns>Whether the string was converted to a hex colour structure</returns>
-        public static bool TryGetColorFromHexString(string hexValue, out HexColorModel model)
+        public static bool TryGetColorFromHexString(string hexValue, out ColorModel model)
         {
             if (!HexColourPattern.IsMatch(hexValue))
             {
@@ -34,7 +34,7 @@ namespace Jammehcow.YosherBot.Command.ColorMe.Helpers
 
             // If it's a short hex code (3 chars) we technically do this twice. Kinda weird but minimal allocation
             // Also no need to worry about Convert.ToByte throwing as the Regex match covers invalid chars
-            model = new HexColorModel
+            model = new ColorModel
             {
                 R = Convert.ToByte(cleanHexValue.Substring(0, 2), 16),
                 G = Convert.ToByte(cleanHexValue.Substring(2, 2), 16),

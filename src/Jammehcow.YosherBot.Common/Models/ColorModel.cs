@@ -2,7 +2,7 @@ using System;
 
 namespace Jammehcow.YosherBot.Common.Models
 {
-    public struct HexColorModel
+    public struct ColorModel
     {
         public byte R;
         public byte G;
