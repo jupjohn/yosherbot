@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Jammehcow.YosherBot.Common.Models;
+using Jammehcow.YosherBot.EfCore.Enums;
 using Jammehcow.YosherBot.EfCore.Models.Base;
 using StatusGeneric;
 
@@ -85,6 +86,29 @@ namespace Jammehcow.YosherBot.EfCore.Models
                 return statusHandler.AddError($"Color was already set to {ColorHexCode}");
 
             ColorHexCode = color.HexCode;
+            return statusHandler;
+        }
+
+        /// <summary>
+        /// Sets the status of this role to removed as well as providing the date of removal
+        /// </summary>
+        /// <param name="dateRemoved">The date that this role was removed on</param>
+        /// <returns>A status containing errors (if any)</returns>
+        public IStatusGeneric SetRoleRemoved(DateTime dateRemoved)
+        {
+            var statusHandler = new StatusGenericHandler();
+
+            // Don't return here as it can chain with the next check
+            if (DateRemoved != null)
+                statusHandler.AddError("DateRemoved is already set!", nameof(DateRemoved));
+
+            if (RoleStatusId == (int) ColorRoleStatusEnum.Deleted)
+                return statusHandler.AddError("Role status is already deleted", nameof(RoleStatusId));
+
+            if (dateRemoved < DateCreated)
+                return statusHandler.AddError("DateRemoved cannot be before DateCreated", nameof(DateRemoved));
+
+            DateRemoved = dateRemoved;
             return statusHandler;
         }
     }
