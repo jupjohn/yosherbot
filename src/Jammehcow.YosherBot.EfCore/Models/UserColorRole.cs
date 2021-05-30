@@ -52,7 +52,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// <summary>
         /// The date this role was applied
         /// </summary>
-        public DateTime DateRemoved { get; internal set; }
+        public DateTime? DateRemoved { get; internal set; }
 
         /// <summary>
         /// Set the display name of the color role
