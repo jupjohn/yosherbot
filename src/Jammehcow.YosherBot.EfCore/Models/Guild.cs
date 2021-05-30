@@ -10,7 +10,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// <summary>
         /// The snowflake ID of the guild
         /// </summary>
-        public long GuildId { get; internal set; }
+        public ulong GuildId { get; internal set; }
 
         /// <summary>
         /// The date this guild was added/joined (UTC)
