@@ -94,7 +94,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// </summary>
         /// <param name="dateRemoved">The date that this role was removed on</param>
         /// <returns>A status containing errors (if any)</returns>
-        public IStatusGeneric SetRoleRemoved(DateTime dateRemoved)
+        public IStatusGeneric MarkAsDeleted(DateTime dateRemoved)
         {
             var statusHandler = new StatusGenericHandler();
 
