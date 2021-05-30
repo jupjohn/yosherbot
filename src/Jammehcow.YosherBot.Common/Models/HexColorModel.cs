@@ -1,4 +1,4 @@
-namespace Jammehcow.YosherBot.Command.ColorMe.Models
+namespace Jammehcow.YosherBot.Common.Models
 {
     public struct HexColorModel
     {

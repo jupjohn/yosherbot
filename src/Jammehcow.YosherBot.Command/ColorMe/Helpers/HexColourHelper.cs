@@ -1,6 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
-using Jammehcow.YosherBot.Command.ColorMe.Models;
+using Jammehcow.YosherBot.Common.Models;
 
 namespace Jammehcow.YosherBot.Command.ColorMe.Helpers
 {
