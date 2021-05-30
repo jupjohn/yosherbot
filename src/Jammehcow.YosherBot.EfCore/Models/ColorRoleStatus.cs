@@ -7,7 +7,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
     /// </summary>
     public class ColorRoleStatus : IEnumEntity
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
         public string Name { get; init; } = null!;
     }
 }

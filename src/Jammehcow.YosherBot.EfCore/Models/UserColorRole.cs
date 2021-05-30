@@ -7,7 +7,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
 {
     public class UserColorRole : IEntity
     {
-        int IEntity.Id { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// The Discord ID of the user this role is applied to

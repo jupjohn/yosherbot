@@ -10,7 +10,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
     /// </summary>
     public class Guild : IEntity
     {
-        int IEntity.Id { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// The snowflake ID of the guild
