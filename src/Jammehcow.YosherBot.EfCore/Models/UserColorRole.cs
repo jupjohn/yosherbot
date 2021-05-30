@@ -5,6 +5,7 @@ using StatusGeneric;
 
 namespace Jammehcow.YosherBot.EfCore.Models
 {
+    // TODO: audit history of color/display name changes
     public class UserColorRole : IEntity
     {
         public int Id { get; init; }
