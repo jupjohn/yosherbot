@@ -13,12 +13,12 @@ namespace Jammehcow.YosherBot.EfCore.Models
         public long GuildId { get; set; }
 
         /// <summary>
-        /// The date this guild was added/joined
+        /// The date this guild was added/joined (UTC)
         /// </summary>
         public DateTime DateAdded { get; set; }
 
         /// <summary>
-        /// The date this guild was left
+        /// The date this guild was left (UTC)
         /// </summary>
         public DateTime DateRemoved { get; set; }
     }
