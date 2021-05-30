@@ -1,3 +1,4 @@
+using System;
 using Jammehcow.YosherBot.EfCore.Enums;
 using Jammehcow.YosherBot.EfCore.Extensions;
 using Jammehcow.YosherBot.EfCore.Models;
@@ -20,14 +21,18 @@ namespace Jammehcow.YosherBot.EfCore
 
         #endregion
 
-        public YosherBotContext(DbContextOptions options) : base(options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // TODO: pass in from startup, not here
+            var connectionString = Environment.GetEnvironmentVariable("YosherBot__DbConnectionString");
+            if (connectionString == null)
+                throw new ArgumentException("Connection string was null");
+
+            optionsBuilder.UseNpgsql(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
             modelBuilder.EnumEntity<ColorRoleStatusEnum, ColorRoleStatus>();
         }
     }
