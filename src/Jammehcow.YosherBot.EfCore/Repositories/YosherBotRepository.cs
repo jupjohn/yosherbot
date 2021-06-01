@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using Jammehcow.YosherBot.EfCore.Extensions;
 using Jammehcow.YosherBot.EfCore.Models;
 using MayBee;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +22,9 @@ namespace Jammehcow.YosherBot.EfCore.Repositories
         /// </summary>
         /// <param name="snowflakeId">Discord's snowflake ID of the Guild</param>
         /// <returns>A Maybe either containing the Guild or none if not found</returns>
-        public Maybe<Guild> GetGuildBySnowflakeId(ulong snowflakeId)
+        public Task<Maybe<Guild>> GetGuildBySnowflakeIdAsync(ulong snowflakeId)
         {
-            return Context.Guilds.SingleAsMaybe(guild => guild.GuildSnowflake == snowflakeId);
+            return Context.Guilds.SingleAsMaybeAsync(guild => guild.GuildSnowflake == snowflakeId);
         }
 
         /// <summary>
@@ -31,14 +33,14 @@ namespace Jammehcow.YosherBot.EfCore.Repositories
         /// <param name="userSnowflake">Discord's snowflake ID of the user</param>
         /// <param name="guildSnowflake">Discord's snowflake ID of the guild</param>
         /// <returns>A Maybe either containing the UserColorRole or none if not found</returns>
-        public Maybe<UserColorRole> GetUserColorRole(ulong userSnowflake, ulong guildSnowflake)
+        public Task<Maybe<UserColorRole>> GetUserColorRoleAsync(ulong userSnowflake, ulong guildSnowflake)
         {
             // TODO: clean up nullability of Guild as it'll be a runtime error instead of something the compiler
             // can see
             return Context.UserColorRoles
                 .Include(ucr => ucr.Guild)
-                .SingleAsMaybe(ucr =>
-                    ucr.Guild?.GuildSnowflake == guildSnowflake &&
+                .SingleAsMaybeAsync(ucr =>
+                    ucr.Guild!.GuildSnowflake == guildSnowflake &&
                     ucr.UserSnowflake == userSnowflake);
         }
     }
