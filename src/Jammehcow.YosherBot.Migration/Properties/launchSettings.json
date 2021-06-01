@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Jammehcow.YosherBot.Migration": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET__ENVIRONMENT": "Development",
+        "YosherBot__DbConnectionString": "User ID=SQLAppsYosherBot;Password=SomeStrongPassword123;Host=localhost;Port=5432;Database=YosherBot;Connection Lifetime=0;"
+      }
+    }
+  }
+}
