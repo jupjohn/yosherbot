@@ -29,6 +29,7 @@ namespace Jammehcow.YosherBot.Console
                 })
                 .ConfigureLogging(builder =>
                 {
+                    // TODO: file/APM logging
                     builder.ClearProviders();
                     builder.AddConsole();
                 })
