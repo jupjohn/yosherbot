@@ -6,6 +6,7 @@ using Discord;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Jammehcow.YosherBot.Console.Extensions;
+using Jammehcow.YosherBot.EfCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -34,6 +35,8 @@ namespace Jammehcow.YosherBot.Console
                 .ConfigureServices(builder =>
                 {
                     builder.AddOptions();
+                    // FIXME: why does it require options?
+                    builder.AddDbContextPool<YosherBotContext>(_ => {}, 16);
                 })
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
                 {
