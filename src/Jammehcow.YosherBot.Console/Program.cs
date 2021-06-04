@@ -36,8 +36,8 @@ namespace Jammehcow.YosherBot.Console
                 .ConfigureServices(builder =>
                 {
                     builder.AddOptions();
-                    // FIXME: why does it require options?
-                    builder.AddDbContextPool<YosherBotContext>(_ => {}, 16);
+                    // TODO: figure out why I can't pool. Overhead of DbContext construction is blocking socket
+                    builder.AddDbContext<YosherBotContext>();
                 })
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
                 {
