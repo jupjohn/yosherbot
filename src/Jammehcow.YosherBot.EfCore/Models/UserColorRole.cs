@@ -22,7 +22,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// The display name of the role
         /// </summary>
         [Required]
-        public string RoleDisplayName { get; internal set; } = null!;
+        public string RoleDisplayName { get; internal set; }
 
         /// <summary>
         /// The Discord ID of the Guild role
@@ -39,7 +39,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// The hex code of the role's color
         /// </summary>
         [Required]
-        public string ColorHexCode { get; internal set; } = null!;
+        public string ColorHexCode { get; internal set; }
 
         /// <summary>
         /// The status of this color role
