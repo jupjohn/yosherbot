@@ -58,7 +58,7 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// </summary>
         public DateTime? DateRemoved { get; internal set; }
 
-        private UserColorRole(ulong userSnowflake, string roleDisplayName, ulong roleSnowflake, int guildId,
+        internal UserColorRole(ulong userSnowflake, string roleDisplayName, ulong roleSnowflake, int guildId,
             string colorHexCode, int roleStatusId, DateTime dateCreated)
         {
             UserSnowflake = userSnowflake;
