@@ -25,7 +25,10 @@ namespace Jammehcow.YosherBot.EfCore
 
         #endregion
 
-        public YosherBotContext(ILoggerFactory loggerFactoryFactory) => _loggerFactory = loggerFactoryFactory;
+        public YosherBotContext(ILoggerFactory loggerFactoryFactory, DbContextOptions options) : base(options)
+        {
+            _loggerFactory = loggerFactoryFactory;
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
