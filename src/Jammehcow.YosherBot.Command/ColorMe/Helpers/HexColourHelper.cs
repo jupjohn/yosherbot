@@ -14,9 +14,9 @@ namespace Jammehcow.YosherBot.Command.ColorMe.Helpers
         /// <param name="hexValue">The hex string to convert (may start with a #)</param>
         /// <param name="model">The model to pass out to if conversion was successful</param>
         /// <returns>Whether the string was converted to a hex colour structure</returns>
-        public static bool TryGetColorFromHexString(string hexValue, out ColorModel model)
+        public static bool TryGetColorFromHexString(string? hexValue, out ColorModel model)
         {
-            if (!HexColourPattern.IsMatch(hexValue))
+            if (hexValue == null || !HexColourPattern.IsMatch(hexValue))
             {
                 model = default;
                 return false;
