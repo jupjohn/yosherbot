@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Discord;
 using Jammehcow.YosherBot.Common.Models;
 using Jammehcow.YosherBot.EfCore.Enums;
 using Jammehcow.YosherBot.EfCore.Models.Base;
@@ -56,6 +57,31 @@ namespace Jammehcow.YosherBot.EfCore.Models
         /// The date this role was applied
         /// </summary>
         public DateTime? DateRemoved { get; internal set; }
+
+        private UserColorRole(ulong userSnowflake, string roleDisplayName, ulong roleSnowflake, int guildId,
+            string colorHexCode, int roleStatusId, DateTime dateCreated)
+        {
+            UserSnowflake = userSnowflake;
+            RoleDisplayName = roleDisplayName;
+            RoleSnowflake = roleSnowflake;
+            GuildId = guildId;
+            ColorHexCode = colorHexCode;
+            RoleStatusId = roleStatusId;
+            DateCreated = dateCreated;
+        }
+
+        public static IStatusGeneric<UserColorRole> CreateUserColorRole(IUser user, IRole colorRole, Guild guild,
+            ColorModel color, string? roleDisplayName = null, DateTime? dateCreated = null)
+        {
+            var status = new StatusGenericHandler<UserColorRole>();
+
+            if (guild.DateRemoved != null)
+                return status.AddError("Unable to create role for a removed guild");
+
+            var entity = new UserColorRole(user.Id, roleDisplayName ?? user.Username, colorRole.Id, guild.Id,
+                color.HexCode, (int) ColorRoleStatusEnum.Assigned, dateCreated ?? DateTime.Now);
+            return status.SetResult(entity);
+        }
 
         /// <summary>
         /// Set the display name of the color role
