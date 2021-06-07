@@ -198,9 +198,9 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _logger.LogInformation("Successfully handled colorme command for user {User}", user.ToString());
         }
 
-        private static async Task<IRole> CreateColorRoleAsync(IGuild guild, string roleName)
+        private static Task<IRole> CreateColorRoleAsync(IGuild guild, string roleName)
         {
-            return await guild.CreateRoleAsync(roleName, isMentionable: false);
+            return guild.CreateRoleAsync(roleName, isMentionable: false);
         }
 
         private async Task ReplyWithHelpMessageAsync()
