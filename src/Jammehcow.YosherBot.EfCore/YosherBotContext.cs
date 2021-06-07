@@ -1,13 +1,17 @@
 using System;
+using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Jammehcow.YosherBot.EfCore.Enums;
 using Jammehcow.YosherBot.EfCore.Extensions;
 using Jammehcow.YosherBot.EfCore.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.EfCore
 {
     public class YosherBotContext : DbContext
     {
+        private readonly ILoggerFactory _loggerFactory;
+
         #region Entities
 
         public virtual DbSet<Guild> Guilds { get; set; } = null!;
@@ -21,6 +25,8 @@ namespace Jammehcow.YosherBot.EfCore
 
         #endregion
 
+        public YosherBotContext(ILoggerFactory loggerFactoryFactory) => _loggerFactory = loggerFactoryFactory;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // TODO: pass in from startup, not here
@@ -28,7 +34,16 @@ namespace Jammehcow.YosherBot.EfCore
             if (connectionString == null)
                 throw new ArgumentException("Connection string was null");
 
-            optionsBuilder.UseNpgsql(connectionString);
+            if (EnvironmentsHelper.IsDevelopment())
+            {
+                optionsBuilder
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+            }
+
+            optionsBuilder
+                .UseLoggerFactory(_loggerFactory)
+                .UseNpgsql(connectionString, builder => builder.CommandTimeout(10));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
