@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using Discord;
 using Jammehcow.YosherBot.EfCore.Extensions;
 using Jammehcow.YosherBot.EfCore.Models;
 using MayBee;
@@ -20,11 +22,27 @@ namespace Jammehcow.YosherBot.EfCore.Repositories
         /// <summary>
         /// Attempt to fetch a single guild with the given Discord snowflake ID
         /// </summary>
-        /// <param name="snowflakeId">Discord's snowflake ID of the Guild</param>
+        /// <param name="guild">The Discord guild to search for</param>
         /// <returns>A Maybe either containing the Guild or none if not found</returns>
-        public Task<Maybe<Guild>> GetGuildBySnowflakeIdAsync(ulong snowflakeId)
+        public async Task<Guild> GetOrCreateGuildAsync(IGuild guild, DateTime? dateCreated = null)
         {
-            return Context.Guilds.SingleAsMaybeAsync(guild => guild.GuildSnowflake == snowflakeId);
+            var potentialGuild = await Context.Guilds
+                .SingleOrDefaultAsync(g =>
+                    g.GuildSnowflake == guild.Id &&
+                    g.DateRemoved == null);
+
+            if (potentialGuild != null)
+                return potentialGuild;
+
+            var guildEntity = Guild.CreateGuildFromDiscordGuild(guild, dateCreated);
+            if (guildEntity.HasErrors)
+            {
+                throw new ArgumentException(
+                    $"Guild could not be created for the following reaons: {guildEntity.GetAllErrors(", ")}");
+            }
+
+            var entity = await Context.AddAsync(guildEntity.Result);
+            return entity.Entity;
         }
 
         /// <summary>
