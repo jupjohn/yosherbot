@@ -23,4 +23,11 @@
       <ProjectReference Include="..\Jammehcow.YosherBot.Integration\Jammehcow.YosherBot.Integration.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="appsettings.Test.json" />
+      <Content Include="appsettings.Test.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>

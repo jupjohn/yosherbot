@@ -5,6 +5,7 @@ using Jammehcow.YosherBot.EfCore.Repositories;
 using Jammehcow.YosherBot.UnitTest.Contexts;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -21,8 +22,16 @@ namespace Jammehcow.YosherBot.UnitTest.Helpers
         protected YosherBotTestContext Context;
         public YosherBotRepository Repository => new(Mock.Of<ILogger<YosherBotRepository>>(), Context);
 
+        public readonly IConfiguration Configuration;
+
         protected BaseTestFixture()
         {
+            // TODO: Would nice to have this done once and only once in the suite's lifetime
+            Configuration =
+                new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.Test.json")
+                    .Build();
+
             _sqliteConnection.Open();
             _options = new DbContextOptionsBuilder<YosherBotContext>()
                 .UseSqlite(_sqliteConnection)
