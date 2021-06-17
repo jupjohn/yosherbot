@@ -10,9 +10,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Autofac" Version="6.1.0" />
+      <PackageReference Include="Autofac" Version="6.2.0" />
       <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-      <PackageReference Include="Discord.Net" Version="2.3.1" />
+      <PackageReference Include="Discord.Net" Version="2.4.0" />
       <PackageReference Include="MayBee" Version="4.0.1" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     </ItemGroup>
@@ -27,6 +27,9 @@
       <Content Include="appsettings.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Update="appsettings.Development.json">
+        <DependentUpon>appsettings.json</DependentUpon>
+      </None>
     </ItemGroup>
 
 </Project>

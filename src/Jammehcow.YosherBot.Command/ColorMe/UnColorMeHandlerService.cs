@@ -6,6 +6,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Command.ColorMe.Helpers;
 using Jammehcow.YosherBot.Common.Configurations;
+using Jammehcow.YosherBot.EfCore.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Command.ColorMe
@@ -15,11 +16,14 @@ namespace Jammehcow.YosherBot.Command.ColorMe
     {
         private readonly ILogger<UnColorMeHandlerService> _logger;
         private readonly ColorMeModuleOptions _colorMeConfig;
+        private readonly YosherBotRepository _repository;
 
-        public UnColorMeHandlerService(ILogger<UnColorMeHandlerService> logger, ColorMeModuleOptions colorMeConfig)
+        public UnColorMeHandlerService(ILogger<UnColorMeHandlerService> logger, ColorMeModuleOptions colorMeConfig,
+            YosherBotRepository repository)
         {
             _logger = logger;
             _colorMeConfig = colorMeConfig;
+            _repository = repository;
         }
 
         [Command("uncolorme")]

@@ -1,5 +1,4 @@
 ﻿using Jammehcow.YosherBot.Common.Helpers.Environment;
-using Jammehcow.YosherBot.Console.Helpers;
 using NUnit.Framework;
 
 namespace Jammehcow.YosherBot.UnitTest

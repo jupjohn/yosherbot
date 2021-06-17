@@ -6,22 +6,26 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Command.ColorMe.Helpers;
 using Jammehcow.YosherBot.Common.Configurations;
+using Jammehcow.YosherBot.EfCore.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace Jammehcow.YosherBot.Command.ColorMe
 {
+    // ReSharper disable once UnusedType.Global
     public class ColorMeHandlerService : ModuleBase<SocketCommandContext>
     {
         private readonly ILogger<ColorMeHandlerService> _logger;
         private readonly ColorMeModuleOptions _colorMeConfig;
         private readonly AdministrationOptions _administrationOptions;
+        private readonly YosherBotRepository _repository;
 
         public ColorMeHandlerService(ILogger<ColorMeHandlerService> logger, ColorMeModuleOptions colorMeConfig,
-            AdministrationOptions administrationOptions)
+            AdministrationOptions administrationOptions, YosherBotRepository repository)
         {
             _logger = logger;
             _colorMeConfig = colorMeConfig;
             _administrationOptions = administrationOptions;
+            _repository = repository;
         }
 
         [Command("colorme")]
@@ -194,9 +198,9 @@ namespace Jammehcow.YosherBot.Command.ColorMe
             _logger.LogInformation("Successfully handled colorme command for user {User}", user.ToString());
         }
 
-        private static async Task<IRole> CreateColorRoleAsync(IGuild guild, string roleName)
+        private static Task<IRole> CreateColorRoleAsync(IGuild guild, string roleName)
         {
-            return await guild.CreateRoleAsync(roleName, isMentionable: false);
+            return guild.CreateRoleAsync(roleName, isMentionable: false);
         }
 
         private async Task ReplyWithHelpMessageAsync()

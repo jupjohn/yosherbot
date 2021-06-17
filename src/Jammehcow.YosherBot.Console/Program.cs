@@ -6,7 +6,7 @@ using Discord;
 using Discord.WebSocket;
 using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Jammehcow.YosherBot.Console.Extensions;
-using Jammehcow.YosherBot.Console.Helpers;
+using Jammehcow.YosherBot.EfCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -29,12 +29,15 @@ namespace Jammehcow.YosherBot.Console
                 })
                 .ConfigureLogging(builder =>
                 {
+                    // TODO: file/APM logging
                     builder.ClearProviders();
                     builder.AddConsole();
                 })
                 .ConfigureServices(builder =>
                 {
                     builder.AddOptions();
+                    // TODO: figure out why I can't pool. Overhead of DbContext construction is blocking socket
+                    builder.AddDbContext<YosherBotContext>();
                 })
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
                 {

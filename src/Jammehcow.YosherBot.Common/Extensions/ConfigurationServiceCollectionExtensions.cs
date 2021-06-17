@@ -1,7 +1,7 @@
 using System;
 using Autofac;
 using Autofac.Builder;
-using DankHappyBot.Service.Configuration;
+using Jammehcow.YosherBot.Common.Configurations;
 using Microsoft.Extensions.Configuration;
 
 namespace Jammehcow.YosherBot.Common.Extensions
@@ -26,7 +26,7 @@ namespace Jammehcow.YosherBot.Common.Extensions
                     throw new ArgumentException("No IConfiguration was registered in the ContainerBuilder");
 
                 TOptions options = new();
-                config.GetSection(options.GetPrefix()).Bind(options);
+                config.GetSection(options.ConfigSectionPrefix).Bind(options);
 
                 return options;
             });

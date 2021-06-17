@@ -7,7 +7,6 @@ using Discord.WebSocket;
 using Jammehcow.YosherBot.Common.Configurations;
 using Jammehcow.YosherBot.Common.Helpers.Environment;
 using Jammehcow.YosherBot.Console.Helpers.Logger;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -50,17 +49,18 @@ namespace Jammehcow.YosherBot.Console
             if (!message.HasStringPrefix(prefix, ref argPos) || message.Author.IsBot)
                 return;
 
+            // TODO: move this to DB lookup (can cache at startup)
             if (EnvironmentsHelper.IsProduction() && socketMessage.Channel.Name != "commands-use")
                 return;
 
-            var context = new SocketCommandContext(_client, message);
+            _logger.LogInformation("Attempting to handle command for message {Message}", message.Content);
 
+            var context = new SocketCommandContext(_client, message);
             await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
             using var cancellationSource = await InitialiseClientAsync(stoppingToken);
 
             await _client.LoginAsync(TokenType.Bot, GetBotToken());
@@ -69,6 +69,7 @@ namespace Jammehcow.YosherBot.Console
             try
             {
                 await Task.Delay(Timeout.Infinite, cancellationSource.Token);
+                _logger.LogInformation("Stopping requested");
             }
             finally
             {
